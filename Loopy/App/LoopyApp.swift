@@ -66,11 +66,10 @@ struct RootTabView: View {
             NavigationStack {
                 ProfileView()
             }
-            .tabItem { Label("Profile", systemImage: "person.fill") }
+            .tabItem { Label("Me", systemImage: "person.fill") }
             .tag(AppTab.profile)
         }
         .tint(LoopyTheme.coral)
         .preferredColorScheme(appearance.colorScheme)
     }
 }
-

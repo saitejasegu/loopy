@@ -20,6 +20,30 @@ enum LoopyTheme {
         }
     )
 
+    static let completedCard = Color(
+        UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 28 / 255, green: 43 / 255, blue: 35 / 255, alpha: 1)
+                : UIColor(red: 236 / 255, green: 244 / 255, blue: 237 / 255, alpha: 1)
+        }
+    )
+
+    static let chip = Color(
+        UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor(red: 47 / 255, green: 43 / 255, blue: 38 / 255, alpha: 1)
+                : UIColor(red: 231 / 255, green: 226 / 255, blue: 216 / 255, alpha: 1)
+        }
+    )
+
+    static let progressTrack = Color(
+        UIColor { traits in
+            traits.userInterfaceStyle == .dark
+                ? UIColor.white.withAlphaComponent(0.14)
+                : UIColor(red: 227 / 255, green: 224 / 255, blue: 216 / 255, alpha: 1)
+        }
+    )
+
     static let secondaryText = Color(
         UIColor { traits in
             traits.userInterfaceStyle == .dark
@@ -58,13 +82,12 @@ extension Color {
 }
 
 extension View {
-    func loopyCard() -> some View {
+    func loopyCard(background: Color = LoopyTheme.card) -> some View {
         self
-            .background(LoopyTheme.card, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .background(background, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .stroke(.primary.opacity(0.06))
             }
     }
 }
-

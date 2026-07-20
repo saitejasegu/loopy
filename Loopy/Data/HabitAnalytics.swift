@@ -110,4 +110,36 @@ enum HabitAnalytics {
         }
         return streak
     }
+
+    static func personalBestStreak(
+        asOf date: Date,
+        habits: [Habit],
+        checkIns: [HabitCheckIn],
+        calendar: Calendar = .current
+    ) -> Int {
+        guard let firstHabitDate = habits.map(\.createdAt).min() else { return 0 }
+
+        let firstDay = calendar.startOfDay(for: firstHabitDate)
+        let lastDay = calendar.startOfDay(for: date)
+        guard firstDay <= lastDay else { return 0 }
+
+        var best = 0
+        var current = 0
+        var cursor = firstDay
+
+        while cursor <= lastDay {
+            let day = dailyCompletion(on: cursor, habits: habits, checkIns: checkIns, calendar: calendar)
+            if day.isPerfect {
+                current += 1
+                best = max(best, current)
+            } else if day.due > 0 {
+                current = 0
+            }
+
+            guard let nextDay = calendar.date(byAdding: .day, value: 1, to: cursor) else { break }
+            cursor = nextDay
+        }
+
+        return best
+    }
 }

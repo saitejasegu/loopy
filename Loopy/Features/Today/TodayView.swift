@@ -3,13 +3,17 @@ import SwiftUI
 
 struct TodayView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
     @Query private var checkIns: [HabitCheckIn]
     @AppStorage("displayName") private var displayName = ""
 
     @State private var isPresentingNewHabit = false
+    @State private var isEditing = false
     @State private var editingHabit: Habit?
     @State private var timerHabit: Habit?
+
+    @ScaledMetric(relativeTo: .largeTitle) private var streakNumberSize = 58
 
     private var activeHabits: [Habit] {
         habits.filter { $0.archivedAt == nil }
@@ -28,61 +32,60 @@ struct TodayView: View {
         return firstName.isEmpty ? "there" : firstName
     }
 
-    var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 16) {
-                greeting
-                streakCard
+    private var initial: String {
+        String((displayName.trimmingCharacters(in: .whitespacesAndNewlines).first ?? "L")).uppercased()
+    }
 
-                if dueHabits.isEmpty {
-                    ContentUnavailableView {
-                        Label("No habits due", systemImage: "checkmark.seal")
-                    } description: {
-                        Text(activeHabits.isEmpty
-                             ? "Create your first habit to start a loop."
-                             : "Nothing is scheduled for today.")
-                    } actions: {
-                        Button("Add Habit") { isPresentingNewHabit = true }
-                            .buttonStyle(.borderedProminent)
-                            .tint(LoopyTheme.coral)
-                    }
-                    .frame(minHeight: 260)
-                } else {
-                    ForEach(dueHabits) { habit in
-                        HabitRow(
-                            habit: habit,
-                            value: HabitAnalytics.value(for: habit, on: .now, checkIns: checkIns),
-                            onPrimaryAction: { performPrimaryAction(for: habit) },
-                            onDecrement: { adjust(habit, by: -1) }
-                        )
-                        .contextMenu {
-                            if habit.trackingKind == .count,
-                               HabitAnalytics.value(for: habit, on: .now, checkIns: checkIns) > 0 {
-                                Button("Decrease", systemImage: "minus.circle") {
-                                    adjust(habit, by: -1)
-                                }
+    private var greeting: String {
+        switch Calendar.current.component(.hour, from: .now) {
+        case 5..<12: "Good morning,"
+        case 12..<17: "Good afternoon,"
+        default: "Good evening,"
+        }
+    }
+
+    var body: some View {
+        ZStack(alignment: .bottomTrailing) {
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    pageHeader
+                    streakCard
+                    habitsHeader
+
+                    if dueHabits.isEmpty {
+                        emptyState
+                    } else {
+                        LazyVStack(spacing: 10) {
+                            ForEach(dueHabits) { habit in
+                                habitRow(for: habit)
                             }
-                            Button("Edit", systemImage: "pencil") {
-                                editingHabit = habit
-                            }
-                            Button("Archive", systemImage: "archivebox", role: .destructive) {
-                                habit.archivedAt = .now
-                            }
+                            addHabitRow
                         }
                     }
                 }
+                .padding(.horizontal, 18)
+                .padding(.top, 14)
+                .padding(.bottom, 92)
             }
-            .padding()
-        }
-        .background(LoopyTheme.background)
-        .navigationTitle("Today")
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button("Add habit", systemImage: "plus") {
+
+            if !dynamicTypeSize.isAccessibilitySize {
+                Button {
                     isPresentingNewHabit = true
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 25, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(width: 60, height: 60)
+                        .background(LoopyTheme.coral, in: Circle())
+                        .shadow(color: LoopyTheme.coral.opacity(0.46), radius: 14, y: 8)
                 }
+                .accessibilityLabel("Add habit")
+                .padding(.trailing, 22)
+                .padding(.bottom, 18)
             }
         }
+        .background(LoopyTheme.background.ignoresSafeArea())
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $isPresentingNewHabit) {
             HabitEditorView()
         }
@@ -94,63 +97,221 @@ struct TodayView: View {
         }
     }
 
-    private var greeting: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(Date.now, format: .dateTime.weekday(.wide).month(.wide).day())
-                    .font(.subheadline)
-                    .foregroundStyle(LoopyTheme.secondaryText)
-                Text("Hey, \(greetingName)")
-                    .font(.title2.bold())
+    private var pageHeader: some View {
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack(alignment: .top, spacing: 12) {
+                        Text(greeting)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(LoopyTheme.secondaryText)
+                            .lineLimit(2)
+                        Spacer(minLength: 8)
+                        avatar
+                    }
+                    greetingTitle
+                }
+            } else {
+                HStack(alignment: .top, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(greeting)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(LoopyTheme.secondaryText)
+                        greetingTitle
+                    }
+
+                    Spacer(minLength: 8)
+                    avatar
+                }
             }
-            Spacer()
-            Image(systemName: "arrow.triangle.2.circlepath")
-                .font(.title2.weight(.semibold))
-                .foregroundStyle(LoopyTheme.coral)
-                .accessibilityHidden(true)
         }
+    }
+
+    private var greetingTitle: some View {
+        Text("Hey \(greetingName)")
+            .font(.title.bold())
+            .lineLimit(1)
+            .minimumScaleFactor(0.76)
+    }
+
+    private var avatar: some View {
+        Text(initial)
+            .font(.headline.bold())
+            .foregroundStyle(LoopyTheme.secondaryText)
+            .frame(width: 44, height: 44)
+            .background(LoopyTheme.chip, in: Circle())
+            .accessibilityLabel(displayName.isEmpty ? "Loopy profile" : "Profile for \(displayName)")
     }
 
     private var streakCard: some View {
         let streak = HabitAnalytics.currentStreak(asOf: .now, habits: activeHabits, checkIns: checkIns)
+        let personalBest = HabitAnalytics.personalBestStreak(asOf: .now, habits: habits, checkIns: checkIns)
         let progress = dueHabits.isEmpty ? 0 : Double(completedCount) / Double(dueHabits.count)
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 18))
+            : AnyLayout(HStackLayout(spacing: 18))
 
-        return HStack(spacing: 24) {
-            VStack(alignment: .leading, spacing: 5) {
+        return layout {
+            VStack(alignment: .leading, spacing: 2) {
                 Text("CURRENT STREAK")
                     .font(.caption.weight(.bold))
-                    .tracking(1.4)
-                HStack(alignment: .firstTextBaseline, spacing: 7) {
-                    Text(streak, format: .number)
-                        .font(.system(size: 52, weight: .bold, design: .monospaced))
-                    Text(streak == 1 ? "day" : "days")
-                        .font(.headline)
-                }
-                Text(streak == 0 ? "A perfect day starts your streak" : "Keep your loop alive")
-                    .font(.caption)
+                    .tracking(1.5)
                     .opacity(0.9)
+
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(streak, format: .number)
+                        .font(.system(size: min(streakNumberSize, 76), weight: .bold, design: .rounded))
+                        .monospacedDigit()
+                        .lineLimit(1)
+                    Text(streak == 1 ? "day" : "days")
+                        .font(.headline.weight(.semibold))
+                        .opacity(0.9)
+                }
+
+                Text("Personal best · \(personalBest) \(personalBest == 1 ? "day" : "days")")
+                    .font(.subheadline.weight(.medium))
+                    .opacity(0.86)
             }
 
             Spacer(minLength: 0)
 
-            ZStack {
-                Circle().stroke(.white.opacity(0.28), lineWidth: 8)
-                Circle()
-                    .trim(from: 0, to: progress)
-                    .stroke(.white, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                Text("\(completedCount)/\(dueHabits.count)")
-                    .font(.system(.subheadline, design: .monospaced, weight: .bold))
+            VStack(spacing: 7) {
+                ProgressRing(
+                    progress: progress,
+                    lineWidth: 9,
+                    trackColor: .white.opacity(0.28),
+                    progressColor: .white
+                ) {
+                    Text("\(completedCount)/\(dueHabits.count)")
+                        .font(.headline.monospacedDigit().bold())
+                }
+                .frame(width: 78, height: 78)
+
+                Text("TODAY")
+                    .font(.caption2.weight(.bold))
+                    .tracking(1)
+                    .opacity(0.9)
             }
-            .frame(width: 72, height: 72)
+            .frame(maxWidth: dynamicTypeSize.isAccessibilitySize ? .infinity : nil)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("Today's progress")
             .accessibilityValue("\(completedCount) of \(dueHabits.count) habits complete")
         }
         .foregroundStyle(.white)
-        .padding(22)
-        .background(LoopyTheme.coral, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
-        .shadow(color: LoopyTheme.coral.opacity(0.3), radius: 14, y: 8)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 22)
+        .background(LoopyTheme.coral, in: RoundedRectangle(cornerRadius: 28, style: .continuous))
+        .shadow(color: LoopyTheme.coral.opacity(0.36), radius: 16, y: 10)
+    }
+
+    private var habitsHeader: some View {
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+            : AnyLayout(HStackLayout())
+
+        return layout {
+            Text("Today’s habits")
+                .font(.title3.bold())
+
+            Spacer(minLength: 0)
+
+            if !dueHabits.isEmpty {
+                Button(isEditing ? "Done" : "Edit") {
+                    withAnimation(.snappy) {
+                        isEditing.toggle()
+                    }
+                }
+                .font(.caption.monospaced().bold())
+                .foregroundStyle(isEditing ? LoopyTheme.coral : LoopyTheme.secondaryText)
+                .padding(.horizontal, 13)
+                .frame(minHeight: 34)
+                .background(LoopyTheme.chip, in: Capsule())
+            }
+        }
+        .padding(.horizontal, 4)
+    }
+
+    @ViewBuilder
+    private var emptyState: some View {
+        ContentUnavailableView {
+            Label("No habits due", systemImage: "checkmark.seal")
+        } description: {
+            Text(activeHabits.isEmpty
+                 ? "Create your first habit to start a loop."
+                 : "Nothing is scheduled for today.")
+        } actions: {
+            Button("Add Habit") {
+                isPresentingNewHabit = true
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(LoopyTheme.coral)
+        }
+        .frame(minHeight: 250)
+    }
+
+    private func habitRow(for habit: Habit) -> some View {
+        HabitRow(
+            habit: habit,
+            value: HabitAnalytics.value(for: habit, on: .now, checkIns: checkIns),
+            isEditing: isEditing,
+            onPrimaryAction: {
+                if isEditing {
+                    editingHabit = habit
+                } else {
+                    performPrimaryAction(for: habit)
+                }
+            },
+            onDecrement: { adjust(habit, by: -1) }
+        )
+        .contextMenu {
+            if habit.trackingKind == .count,
+               HabitAnalytics.value(for: habit, on: .now, checkIns: checkIns) > 0 {
+                Button("Decrease", systemImage: "minus.circle") {
+                    adjust(habit, by: -1)
+                }
+            }
+            Button("Edit", systemImage: "pencil") {
+                editingHabit = habit
+            }
+            Button("Archive", systemImage: "archivebox", role: .destructive) {
+                habit.archivedAt = .now
+            }
+        }
+    }
+
+    private var addHabitRow: some View {
+        Button {
+            isPresentingNewHabit = true
+        } label: {
+            HStack(spacing: 13) {
+                Image(systemName: "plus")
+                    .font(.title3.weight(.medium))
+                    .foregroundStyle(LoopyTheme.coral)
+                    .frame(width: 44, height: 44)
+                    .background(
+                        LoopyTheme.coral.opacity(0.12),
+                        in: RoundedRectangle(cornerRadius: 13, style: .continuous)
+                    )
+
+                Text("Add a habit")
+                    .font(.body.weight(.semibold))
+                    .foregroundStyle(LoopyTheme.secondaryText)
+
+                Spacer()
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .background {
+            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                .stroke(
+                    LoopyTheme.secondaryText.opacity(0.42),
+                    style: StrokeStyle(lineWidth: 1.5, dash: [6, 6])
+                )
+        }
+        .accessibilityHint("Opens the new habit form")
     }
 
     private func performPrimaryAction(for habit: Habit) {
@@ -191,6 +352,7 @@ struct TodayView: View {
 private struct HabitRow: View {
     let habit: Habit
     let value: Double
+    let isEditing: Bool
     let onPrimaryAction: () -> Void
     let onDecrement: () -> Void
 
@@ -201,32 +363,47 @@ private struct HabitRow: View {
         Button(action: onPrimaryAction) {
             HStack(spacing: 13) {
                 Text(String(habit.name.prefix(2)).capitalized)
-                    .font(.subheadline.bold())
+                    .font(.headline.bold())
                     .foregroundStyle(Color(hex: habit.colorHex))
-                    .frame(width: 44, height: 44)
-                    .background(Color(hex: habit.colorHex).opacity(0.14), in: RoundedRectangle(cornerRadius: 13))
+                    .frame(width: 46, height: 46)
+                    .background(
+                        Color(hex: habit.colorHex).opacity(0.14),
+                        in: RoundedRectangle(cornerRadius: 14, style: .continuous)
+                    )
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(habit.name)
-                        .font(.body.weight(.semibold))
+                        .font(.title3.weight(.semibold))
                         .foregroundStyle(.primary)
+                        .lineLimit(2)
                     Text(subtitle)
-                        .font(.caption)
+                        .font(.subheadline.weight(.medium))
                         .foregroundStyle(LoopyTheme.secondaryText)
+                        .lineLimit(2)
                 }
 
-                Spacer()
+                Spacer(minLength: 6)
 
-                trailingControl
+                if isEditing {
+                    Image(systemName: "pencil")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(LoopyTheme.coral)
+                        .frame(width: 36, height: 36)
+                        .background(LoopyTheme.coral.opacity(0.12), in: Circle())
+                } else {
+                    trailingControl
+                }
             }
-            .padding(14)
+            .padding(.horizontal, 15)
+            .padding(.vertical, 13)
+            .frame(minHeight: 72)
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .loopyCard()
+        .loopyCard(background: isComplete ? LoopyTheme.completedCard : LoopyTheme.card)
         .accessibilityLabel(habit.name)
         .accessibilityValue(accessibilityValue)
-        .accessibilityHint(accessibilityHint)
+        .accessibilityHint(isEditing ? "Double tap to edit" : accessibilityHint)
         .accessibilityAction(named: "Decrease") { onDecrement() }
     }
 
@@ -243,26 +420,64 @@ private struct HabitRow: View {
 
     @ViewBuilder
     private var trailingControl: some View {
-        if habit.trackingKind == .count {
+        switch habit.trackingKind {
+        case .count:
             VStack(alignment: .trailing, spacing: 6) {
-                ProgressView(value: progress)
-                    .tint(Color(hex: habit.colorHex))
-                    .frame(width: 82)
+                SegmentedProgress(
+                    progress: progress,
+                    target: habit.safeTarget,
+                    color: Color(hex: habit.colorHex)
+                )
+                .frame(width: 94)
                 Text("\(Int(value))/\(Int(habit.targetValue))")
-                    .font(.caption.monospacedDigit().bold())
+                    .font(.subheadline.monospacedDigit().bold())
                     .foregroundStyle(Color(hex: habit.colorHex))
             }
-        } else {
-            Image(systemName: isComplete ? "checkmark.circle.fill" : "circle")
-                .font(.system(size: 31))
-                .foregroundStyle(isComplete ? LoopyTheme.green : Color.secondary.opacity(0.35))
-                .contentTransition(.symbolEffect(.replace))
+        case .duration:
+            if isComplete {
+                ZStack {
+                    Circle().fill(LoopyTheme.green)
+                    Image(systemName: "checkmark")
+                        .font(.headline.bold())
+                        .foregroundStyle(.white)
+                }
+                .frame(width: 48, height: 48)
+            } else {
+                ProgressRing(
+                    progress: progress,
+                    lineWidth: 7,
+                    trackColor: LoopyTheme.progressTrack,
+                    progressColor: Color(hex: habit.colorHex)
+                ) {
+                    Text(durationString(value))
+                        .font(.caption2.monospacedDigit().bold())
+                        .foregroundStyle(Color(hex: habit.colorHex))
+                }
+                .frame(width: 48, height: 48)
+            }
+        case .binary:
+            ZStack {
+                Circle()
+                    .fill(isComplete ? LoopyTheme.green : .clear)
+                Circle()
+                    .stroke(isComplete ? .clear : LoopyTheme.progressTrack, lineWidth: 2)
+                if isComplete {
+                    Image(systemName: "checkmark")
+                        .font(.headline.bold())
+                        .foregroundStyle(.white)
+                }
+            }
+            .frame(width: 34, height: 34)
+            .contentTransition(.symbolEffect(.replace))
         }
     }
 
     private var accessibilityValue: String {
         if habit.trackingKind == .count {
             return "\(Int(value)) of \(Int(habit.targetValue)) \(habit.unit)"
+        }
+        if habit.trackingKind == .duration {
+            return "\(durationString(value)) recorded; \(isComplete ? "complete" : "incomplete")"
         }
         return isComplete ? "Complete" : "Incomplete"
     }
@@ -273,6 +488,72 @@ private struct HabitRow: View {
         case .count: "Double tap to add one"
         case .duration: "Double tap to open the timer"
         }
+    }
+
+    private func durationString(_ seconds: Double) -> String {
+        let total = max(0, Int(seconds.rounded(.down)))
+        return String(format: "%d:%02d", total / 60, total % 60)
+    }
+}
+
+private struct ProgressRing<Content: View>: View {
+    let progress: Double
+    let lineWidth: CGFloat
+    let trackColor: Color
+    let progressColor: Color
+    private let content: () -> Content
+
+    init(
+        progress: Double,
+        lineWidth: CGFloat,
+        trackColor: Color,
+        progressColor: Color,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.progress = progress
+        self.lineWidth = lineWidth
+        self.trackColor = trackColor
+        self.progressColor = progressColor
+        self.content = content
+    }
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(trackColor, lineWidth: lineWidth)
+            Circle()
+                .trim(from: 0, to: min(max(progress, 0), 1))
+                .stroke(progressColor, style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt))
+                .rotationEffect(.degrees(-90))
+                .animation(.snappy, value: progress)
+            content()
+        }
+    }
+}
+
+private struct SegmentedProgress: View {
+    let progress: Double
+    let target: Double
+    let color: Color
+
+    private var segmentCount: Int {
+        min(max(Int(target.rounded()), 1), 8)
+    }
+
+    private var filledSegments: Int {
+        min(Int((progress * Double(segmentCount)).rounded(.up)), segmentCount)
+    }
+
+    var body: some View {
+        HStack(spacing: 3) {
+            ForEach(0..<segmentCount, id: \.self) { index in
+                Capsule()
+                    .fill(index < filledSegments ? color : LoopyTheme.progressTrack)
+                    .frame(height: 5)
+            }
+        }
+        .animation(.snappy, value: filledSegments)
+        .accessibilityHidden(true)
     }
 }
 

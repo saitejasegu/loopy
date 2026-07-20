@@ -63,5 +63,31 @@ struct HabitAnalyticsTests {
         #expect(completion.completed == 1)
         #expect(completion.isPerfect)
     }
-}
 
+    @Test("Personal best keeps the longest completed run")
+    @MainActor
+    func personalBestStreak() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(identifier: "UTC"))
+        let firstDay = try #require(calendar.date(from: DateComponents(year: 2026, month: 7, day: 13)))
+        let habit = Habit(name: "Read", createdAt: firstDay)
+        let completedOffsets = [0, 1, 3, 4, 5]
+        let logs = try completedOffsets.map { offset in
+            let date = try #require(calendar.date(byAdding: .day, value: offset, to: firstDay))
+            return HabitCheckIn(
+                habitID: habit.id,
+                timestamp: date,
+                dayKey: DayKey.make(for: date, calendar: calendar),
+                value: 1
+            )
+        }
+        let lastDay = try #require(calendar.date(byAdding: .day, value: 6, to: firstDay))
+
+        #expect(HabitAnalytics.personalBestStreak(
+            asOf: lastDay,
+            habits: [habit],
+            checkIns: logs,
+            calendar: calendar
+        ) == 3)
+    }
+}
