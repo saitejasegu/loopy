@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Space Grotesk', sans-serif; }
+  .phone { --bg:#f4f0e8; --card:#ffffff; --text:#1c1a17; --text2:#8a8378; --chip:#e3ddd0; --line:rgba(0,0,0,0.05); --nav:rgba(250,247,241,0.6); }
+  .phone[data-theme="dark"] { --bg:#141210; --card:#211e1b; --text:#f3efe8; --text2:#9c9488; --chip:#2c2825; --line:rgba(255,255,255,0.08); --nav:rgba(30,27,24,0.62); }
+  .phone, .phone * { transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+  a { color: #FF6B4A; text-decoration: none; }
+  a:hover { color: #e0512f; }
+  .hb:active { transform: scale(0.97); }
+  .hb { transition: transform .12s ease, background .15s ease; cursor: pointer; }
+  .tab { cursor: pointer; }
+  .tab:active { transform: scale(0.9); }
+  .tab { transition: transform .12s ease; }
+</style>
+</helmet>
+<div style="min-height:100vh;background:#ece7dd;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:40px 20px;font-family:'Space Grotesk',sans-serif">
+
+  <div style="text-align:center">
+    <div style="font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.3px">Momentum — click demo</div>
+    <div style="font-size:14px;color:var(--text2);font-weight:500">Tap the bottom tabs. Tap habits to complete them; tap water to add a glass.</div>
+  </div>
+
+  <div class="phone" data-theme="{{ theme }}" style="position:relative;width:390px;height:844px;background:var(--bg);border-radius:54px;box-shadow:0 44px 90px -24px rgba(0,0,0,0.4);border:11px solid #0c0b0a;overflow:hidden">
+    <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:118px;height:33px;background:#000;border-radius:20px;z-index:20"></div>
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column">
+
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:15px 26px 4px;font-family:'Space Mono',monospace">
+        <div style="font-weight:700;font-size:15px;color:var(--text)">9:41</div>
+        <div style="display:flex;align-items:center;gap:7px">
+          <div style="display:flex;align-items:flex-end;gap:2px;height:11px"><div style="width:3px;height:5px;background:var(--text);border-radius:1px"></div><div style="width:3px;height:7px;background:var(--text);border-radius:1px"></div><div style="width:3px;height:9px;background:var(--text);border-radius:1px"></div><div style="width:3px;height:11px;background:var(--text);border-radius:1px"></div></div>
+          <div style="width:23px;height:12px;border:1.5px solid var(--text);border-radius:3px;position:relative"><div style="position:absolute;top:1.5px;bottom:1.5px;left:1.5px;right:5px;background:var(--text);border-radius:1px"></div></div>
+        </div>
+      </div>
+
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:96px">
+
+        <!-- ===== TODAY ===== -->
+        <sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:16px 18px 20px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <div style="font-size:14px;color:var(--text2);font-weight:500">Good morning,</div>
+                <div style="font-size:26px;font-weight:700;color:var(--text);letter-spacing:-0.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:250px">Hey {{ firstName }}</div>
+              </div>
+              <div style="width:44px;height:44px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font:700 16px 'Space Grotesk';color:var(--text2)">{{ initial }}</div>
+            </div>
+
+            <div style="border-radius:28px;padding:22px 24px;color:var(--card);display:flex;justify-content:space-between;align-items:center;box-shadow:0 18px 30px -12px rgba(255,107,74,0.6);background:#FF6B4A">
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.9">Current streak</div>
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <div style="font:700 58px 'Space Mono',monospace;line-height:0.85">24</div>
+                  <div style="font-size:16px;font-weight:600;opacity:.9">days</div>
+                </div>
+                <div style="font-size:13px;font-weight:500;opacity:.85;margin-top:6px">Personal best · 31 days</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+                <div style="width:74px;height:74px;border-radius:50%;background:{{ ringGradient }};display:grid;place-items:center">
+                  <div style="width:57px;height:57px;border-radius:50%;background:#FF6B4A;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-weight:700;font-size:17px;line-height:1;color:#fff;white-space:nowrap">{{ ratioText }}</div>
+                </div>
+                <div style="font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;opacity:.9">Today</div>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:0 4px">
+              <div style="font-size:17px;font-weight:700;color:var(--text)">Today's habits</div>
+              <div onClick="{{ toggleEdit }}" style="font:700 12px 'Space Mono',monospace;letter-spacing:.5px;color:{{ editColor }};background:{{ editBg }};padding:5px 12px;border-radius:99px;cursor:pointer">{{ editLabel }}</div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ habits }}" as="h" hint-placeholder-count="5">
+                <div class="hb" onClick="{{ h.onTap }}" style="display:flex;align-items:center;gap:13px;background:{{ h.cardBg }};border-radius:20px;padding:13px 15px;border:1px solid var(--line)">
+                  <div style="width:42px;height:42px;border-radius:13px;background:{{ h.iconBg }};display:grid;place-items:center;font:700 16px 'Space Grotesk';color:{{ h.iconColor }}">{{ h.abbr }}</div>
+                  <div style="flex:1;min-width:0">
+                    <div style="font-size:15px;font-weight:600;color:var(--text)">{{ h.name }}</div>
+                    <div style="font-size:12.5px;color:var(--text2);font-weight:500">{{ h.sub }}</div>
+                  </div>
+                  <div style="flex-shrink:0">{{ h.trailing }}</div>
+                </div>
+              </sc-for>
+              <div class="hb" onClick="{{ openSheet }}" style="display:flex;align-items:center;gap:13px;background:transparent;border-radius:20px;padding:13px 15px;border:1.5px dashed #cfc7b6">
+                <div style="width:42px;height:42px;border-radius:13px;background:rgba(255,107,74,0.12);display:grid;place-items:center;font-size:24px;font-weight:400;color:#e0512f">+</div>
+                <div style="flex:1;font-size:15px;font-weight:600;color:var(--text2)">Add a habit</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== STATS ===== -->
+        <sc-if value="{{ isStats }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px 18px 20px;display:flex;flex-direction:column;gap:15px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <div style="font-size:26px;font-weight:700;color:var(--text);letter-spacing:-0.5px">Your stats</div>
+                <div style="font-size:13.5px;color:var(--text2);font-weight:500">Last 30 days</div>
+              </div>
+              <div style="display:flex;gap:4px;background:var(--chip);padding:4px;border-radius:12px">
+                <div style="font:700 12px 'Space Mono',monospace;color:var(--text);background:var(--card);padding:5px 11px;border-radius:8px">30D</div>
+                <div style="font:700 12px 'Space Mono',monospace;color:var(--text2);padding:5px 11px">1Y</div>
+              </div>
+            </div>
+            <div style="border-radius:26px;padding:20px 22px;color:var(--card);box-shadow:0 18px 30px -12px rgba(255,107,74,0.6);background:#FF6B4A">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;opacity:.9">Overall completion</div>
+                  <div style="display:flex;align-items:baseline;gap:6px;margin-top:2px"><div style="font:700 46px 'Space Mono',monospace;line-height:0.9">82</div><div style="font-size:20px;font-weight:700">%</div></div>
+                </div>
+                <div style="text-align:right"><div style="font:700 20px 'Space Mono',monospace">▲ 8%</div><div style="font-size:12px;font-weight:500;opacity:.9">vs last month</div></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 15px;border:1px solid var(--line)"><div style="font:700 24px 'Space Mono',monospace;color:#FF6B4A;line-height:1">24</div><div style="font-size:12px;color:var(--text2);font-weight:500;margin-top:3px">Day streak</div></div>
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 15px;border:1px solid var(--line)"><div style="font:700 24px 'Space Mono',monospace;color:#33a06c;line-height:1">12</div><div style="font-size:12px;color:var(--text2);font-weight:500;margin-top:3px">Perfect days</div></div>
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 15px;border:1px solid var(--line)"><div style="font:700 24px 'Space Mono',monospace;color:#8659e6;line-height:1">318</div><div style="font-size:12px;color:var(--text2);font-weight:500;margin-top:3px">Total done</div></div>
+            </div>
+            <div style="background:var(--card);border-radius:22px;padding:17px 17px 13px;border:1px solid var(--line)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px"><div style="font-size:15px;font-weight:700;color:var(--text)">Completions per day</div><div style="font:700 12px 'Space Mono',monospace;color:var(--text2)">Jul</div></div>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;height:104px;gap:5px">
+                <sc-for list="{{ statBars }}" as="bar" hint-placeholder-count="12">
+                  <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end">
+                    <div style="width:100%;border-radius:5px 5px 2px 2px;height:{{ bar.h }};background:{{ bar.bg }}"></div>
+                    <div style="font:700 9px 'Space Mono',monospace;color:#a8a293">{{ bar.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:var(--card);border-radius:22px;padding:17px;border:1px solid var(--line);display:flex;flex-direction:column;gap:13px">
+              <div style="font-size:15px;font-weight:700;color:var(--text)">By habit</div>
+              <div style="display:flex;align-items:center;gap:12px"><div style="width:9px;height:9px;border-radius:50%;background:#4CC38A"></div><div style="font-size:14px;font-weight:600;color:var(--text);width:78px">Meditate</div><div style="flex:1;height:8px;border-radius:5px;background:var(--chip);overflow:hidden"><div style="width:93%;height:100%;background:#4CC38A;border-radius:5px"></div></div><div style="font:700 12px 'Space Mono',monospace;color:var(--text2);width:34px;text-align:right">93%</div></div>
+              <div style="display:flex;align-items:center;gap:12px"><div style="width:9px;height:9px;border-radius:50%;background:#4A9DFF"></div><div style="font-size:14px;font-weight:600;color:var(--text);width:78px">Water</div><div style="flex:1;height:8px;border-radius:5px;background:var(--chip);overflow:hidden"><div style="width:80%;height:100%;background:#4A9DFF;border-radius:5px"></div></div><div style="font:700 12px 'Space Mono',monospace;color:var(--text2);width:34px;text-align:right">80%</div></div>
+              <div style="display:flex;align-items:center;gap:12px"><div style="width:9px;height:9px;border-radius:50%;background:#8659e6"></div><div style="font-size:14px;font-weight:600;color:var(--text);width:78px">Read</div><div style="flex:1;height:8px;border-radius:5px;background:var(--chip);overflow:hidden"><div style="width:64%;height:100%;background:#8659e6;border-radius:5px"></div></div><div style="font:700 12px 'Space Mono',monospace;color:var(--text2);width:34px;text-align:right">64%</div></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== HISTORY ===== -->
+        <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:16px 20px 20px;display:flex;flex-direction:column;gap:16px">
+            <div><div style="font-size:26px;font-weight:700;color:var(--text);letter-spacing:-0.5px">History</div><div style="font-size:13.5px;color:var(--text2);font-weight:500">Every day you showed up</div></div>
+            <div style="display:flex;align-items:center;gap:12px;background:#FF6B4A;border-radius:20px;padding:15px 18px;color:var(--card);box-shadow:0 16px 28px -14px rgba(255,107,74,0.6)">
+              <div style="font:700 42px 'Space Mono',monospace;line-height:0.9">24</div>
+              <div style="line-height:1.2"><div style="font-size:15px;font-weight:700">day streak</div><div style="font-size:12.5px;font-weight:500;opacity:.9">🔥 keep it alive — best was 31</div></div>
+            </div>
+            <div style="background:var(--card);border-radius:24px;padding:18px 18px 20px;border:1px solid var(--line)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                <div style="width:30px;height:30px;border-radius:9px;background:var(--chip);display:grid;place-items:center;color:var(--text2);font-size:17px;font-weight:700">‹</div>
+                <div style="font-size:16px;font-weight:700;color:var(--text)">July 2026</div>
+                <div style="width:30px;height:30px;border-radius:9px;background:var(--chip);display:grid;place-items:center;color:var(--text2);font-size:17px;font-weight:700">›</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:8px">
+                <div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">S</div><div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">M</div><div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">T</div><div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">W</div><div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">T</div><div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">F</div><div style="text-align:center;font:700 11px 'Space Mono',monospace;color:#b4ad9f">S</div>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px">
+                <sc-for list="{{ calendarDays }}" as="c" hint-placeholder-count="33">
+                  <div style="aspect-ratio:1;border-radius:10px;display:grid;place-items:center;font:700 12px 'Space Mono',monospace;background:{{ c.bg }};color:{{ c.txt }}">{{ c.day }}</div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:flex-end;gap:6px;margin-top:16px">
+                <span style="font:600 11px 'Space Mono',monospace;color:#a8a293">less</span>
+                <div style="width:12px;height:12px;border-radius:4px;background:var(--line)"></div><div style="width:12px;height:12px;border-radius:4px;background:rgba(255,107,74,0.26)"></div><div style="width:12px;height:12px;border-radius:4px;background:rgba(255,107,74,0.58)"></div><div style="width:12px;height:12px;border-radius:4px;background:#FF6B4A"></div>
+                <span style="font:600 11px 'Space Mono',monospace;color:#a8a293">more</span>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 15px;border:1px solid var(--line)"><div style="font:700 22px 'Space Mono',monospace;color:var(--text);line-height:1">19</div><div style="font-size:12px;color:var(--text2);font-weight:500;margin-top:3px">Active days in Jul</div></div>
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 15px;border:1px solid var(--line)"><div style="font:700 22px 'Space Mono',monospace;color:var(--text);line-height:1">11</div><div style="font-size:12px;color:var(--text2);font-weight:500;margin-top:3px">Perfect days</div></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- ===== ME ===== -->
+        <sc-if value="{{ isMe }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:14px 18px 20px;display:flex;flex-direction:column;gap:15px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:4px">
+              <div style="width:82px;height:82px;border-radius:50%;background:#FF6B4A;display:grid;place-items:center;font:700 32px 'Space Grotesk';color:var(--card);box-shadow:0 14px 26px -10px rgba(255,107,74,0.65)">{{ initial }}</div>
+              <div style="text-align:center"><div style="font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.3px">{{ userName }}</div><div style="font:600 12.5px 'Space Mono',monospace;color:var(--text2)">Member since Jan 2026 · Level 7</div></div>
+            </div>
+            <div style="display:flex;gap:10px">
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 12px;border:1px solid var(--line);text-align:center"><div style="font:700 24px 'Space Mono',monospace;color:#FF6B4A;line-height:1">24</div><div style="font-size:11.5px;color:var(--text2);font-weight:500;margin-top:3px">Streak</div></div>
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 12px;border:1px solid var(--line);text-align:center"><div style="font:700 24px 'Space Mono',monospace;color:#33a06c;line-height:1">318</div><div style="font-size:11.5px;color:var(--text2);font-weight:500;margin-top:3px">Done</div></div>
+              <div style="flex:1;background:var(--card);border-radius:18px;padding:14px 12px;border:1px solid var(--line);text-align:center"><div style="font:700 24px 'Space Mono',monospace;color:#8659e6;line-height:1">6</div><div style="font-size:11.5px;color:var(--text2);font-weight:500;margin-top:3px">Habits</div></div>
+            </div>
+            <div style="background:var(--card);border-radius:22px;padding:17px;border:1px solid var(--line)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div style="font-size:15px;font-weight:700;color:var(--text)">Achievements</div><div style="font:700 12px 'Space Mono',monospace;color:var(--text2)">9 / 24</div></div>
+              <div style="display:flex;gap:12px">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:16px;background:rgba(255,176,32,0.16);display:grid;place-items:center;font-size:26px">🔥</div><div style="font-size:11px;font-weight:600;color:var(--text);text-align:center;line-height:1.2">3-week<br>streak</div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:16px;background:rgba(76,195,138,0.16);display:grid;place-items:center;font-size:26px">🌅</div><div style="font-size:11px;font-weight:600;color:var(--text);text-align:center;line-height:1.2">Early<br>riser</div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:16px;background:rgba(133,89,230,0.14);display:grid;place-items:center;font-size:26px">📚</div><div style="font-size:11px;font-weight:600;color:var(--text);text-align:center;line-height:1.2">Bookworm</div></div>
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><div style="width:52px;height:52px;border-radius:16px;background:var(--line);display:grid;place-items:center;font-size:26px;filter:grayscale(1);opacity:.4">💯</div><div style="font-size:11px;font-weight:600;color:#a8a293;text-align:center;line-height:1.2">Locked</div></div>
+              </div>
+            </div>
+            <div style="background:var(--card);border-radius:22px;border:1px solid var(--line);overflow:hidden">
+              <div style="display:flex;align-items:center;gap:13px;padding:15px 17px"><div style="width:34px;height:34px;border-radius:10px;background:rgba(255,107,74,0.14);display:grid;place-items:center;font-size:17px">🔔</div><div style="flex:1;font-size:14.5px;font-weight:600;color:var(--text)">Reminders</div><div style="font:600 13px 'Space Mono',monospace;color:var(--text2);margin-right:6px">3 active</div><div style="color:#c2bcae;font-size:18px;font-weight:700">›</div></div>
+              <div style="height:1px;background:var(--line);margin:0 17px"></div>
+              <div onClick="{{ toggleTheme }}" style="display:flex;align-items:center;gap:13px;padding:15px 17px;cursor:pointer"><div style="width:34px;height:34px;border-radius:10px;background:rgba(74,157,255,0.14);display:grid;place-items:center;font-size:17px">🌙</div><div style="flex:1;font-size:14.5px;font-weight:600;color:var(--text)">Dark mode</div><div style="font:600 13px 'Space Mono',monospace;color:var(--text2);margin-right:6px">{{ themeLabel }}</div><div style="width:44px;height:26px;border-radius:99px;background:{{ themeTrack }};position:relative;transition:background .25s ease"><div style="position:absolute;top:2px;left:{{ themeKnob }};width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);transition:left .25s ease"></div></div></div>
+              <div style="height:1px;background:var(--line);margin:0 17px"></div>
+              <div style="display:flex;align-items:center;gap:13px;padding:15px 17px"><div style="width:34px;height:34px;border-radius:10px;background:rgba(76,195,138,0.16);display:grid;place-items:center;font-size:17px">☁️</div><div style="flex:1;font-size:14.5px;font-weight:600;color:var(--text)">Backup & sync</div><div style="width:38px;height:22px;border-radius:99px;background:#4CC38A;position:relative"><div style="position:absolute;top:2px;right:2px;width:18px;height:18px;border-radius:50%;background:var(--card)"></div></div></div>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+        <div class="fab" onClick="{{ openSheet }}" style="position:absolute;right:22px;bottom:94px;width:60px;height:60px;border-radius:50%;display:grid;place-items:center;color:var(--card);font-size:32px;font-weight:400;box-shadow:0 14px 26px -8px rgba(255,107,74,0.75);z-index:16;background:#FF6B4A;cursor:pointer">+</div>
+      </sc-if>
+
+      <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(28,26,23,0.4);z-index:30"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;z-index:31;background:var(--bg);border-radius:28px 28px 0 0;padding:12px 22px 30px;box-shadow:0 -14px 40px -10px rgba(0,0,0,0.3);display:flex;flex-direction:column;gap:18px">
+          <div style="width:40px;height:5px;border-radius:3px;background:#d6cfc0;margin:0 auto"></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-size:21px;font-weight:700;color:var(--text);letter-spacing:-0.3px">{{ sheetTitle }}</div>
+            <div onClick="{{ closeSheet }}" style="width:32px;height:32px;border-radius:50%;background:var(--chip);display:grid;place-items:center;color:var(--text2);font-size:17px;font-weight:700;cursor:pointer">×</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font:700 11px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--text2)">Name</div>
+            <input value="{{ draftName }}" onInput="{{ onNameInput }}" placeholder="e.g. Stretch" style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;outline:none;width:100%" />
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font:700 11px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--text2)">Type</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <sc-for list="{{ typeOptions }}" as="t" hint-placeholder-count="4">
+                <div onClick="{{ t.onPick }}" style="display:flex;align-items:center;gap:10px;background:{{ t.bg }};border:1.5px solid {{ t.border }};border-radius:16px;padding:13px 14px;cursor:pointer">
+                  <div style="font-size:19px">{{ t.icon }}</div>
+                  <div style="font-size:14px;font-weight:600;color:{{ t.textColor }}">{{ t.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ needsTarget }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;gap:7px">
+                <div style="font:700 11px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--text2)">{{ targetLabel }}</div>
+                <sc-if value="{{ isHealth }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:4px;background:rgba(255,45,85,0.1);padding:3px 8px;border-radius:99px"><span style="color:#ff2d55;font-size:11px">♥</span><span style="font:700 9px 'Space Mono',monospace;color:#ff2d55;letter-spacing:.5px">APPLE HEALTH</span></div></sc-if>
+              </div>
+              <input value="{{ draftTarget }}" onInput="{{ onTargetInput }}" placeholder="{{ targetPlaceholder }}" style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;outline:none;width:100%" />
+              <sc-if value="{{ isHealth }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--text2);font-weight:500">Progress syncs automatically — no check-in needed.</div></sc-if>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font:700 11px 'Space Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--text2)">Accent</div>
+            <div style="display:flex;gap:12px">
+              <sc-for list="{{ colorOptions }}" as="c" hint-placeholder-count="5">
+                <div onClick="{{ c.onPick }}" style="width:38px;height:38px;border-radius:50%;background:{{ c.color }};cursor:pointer;box-shadow:{{ c.ring }};display:grid;place-items:center;color:var(--card);font-size:15px;font-weight:700">{{ c.check }}</div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div onClick="{{ createHabit }}" style="margin-top:4px;background:{{ createBg }};border-radius:18px;padding:16px;text-align:center;color:var(--card);font-size:16px;font-weight:700;cursor:{{ createCursor }};box-shadow:0 12px 24px -10px rgba(255,107,74,0.6)">{{ createLabel }}</div>
+        </div>
+      </sc-if>
+
+      <div style="position:absolute;left:16px;right:16px;bottom:22px;display:flex;justify-content:space-around;align-items:center;padding:13px 18px;border-radius:26px;background:var(--nav);backdrop-filter:blur(22px) saturate(180%);-webkit-backdrop-filter:blur(22px) saturate(180%);border:1px solid rgba(255,255,255,0.7);box-shadow:0 8px 30px -6px rgba(0,0,0,0.18),inset 0 1px 0 rgba(255,255,255,0.9);z-index:15">
+        <div class="tab" onClick="{{ goToday }}" style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:6px;background:{{ cToday }}"></div><div style="font-size:10px;font-weight:600;color:{{ cToday }}">Today</div></div>
+        <div class="tab" onClick="{{ goStats }}" style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:flex;align-items:flex-end;gap:3px;width:20px;height:20px"><div style="flex:1;height:8px;background:{{ cStats }};border-radius:2px"></div><div style="flex:1;height:14px;background:{{ cStats }};border-radius:2px"></div><div style="flex:1;height:20px;background:{{ cStats }};border-radius:2px"></div></div><div style="font-size:10px;font-weight:600;color:{{ cStats }}">Stats</div></div>
+        <div class="tab" onClick="{{ goHistory }}" style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;width:18px;height:18px"><div style="background:{{ cHistory }};border-radius:2px"></div><div style="background:{{ cHistory }};border-radius:2px"></div><div style="background:{{ cHistory }};border-radius:2px"></div><div style="background:{{ cHistory }};border-radius:2px"></div></div><div style="font-size:10px;font-weight:600;color:{{ cHistory }}">History</div></div>
+        <div class="tab" onClick="{{ goMe }}" style="display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:18px;height:18px;border-radius:50%;background:{{ meFill }};border:2.5px solid {{ cMe }}"></div><div style="font-size:10px;font-weight:600;color:{{ cMe }}">Me</div></div>
+      </div>
+      <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:134px;height:5px;border-radius:3px;background:var(--text);opacity:.85"></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:470,&quot;height&quot;:1000},&quot;userName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Saiteja Segu&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = {
+    screen: 'today',
+    theme: 'light',
+    sheetOpen: false,
+    editMode: false,
+    draftName: '',
+    draftType: 'yesno',
+    draftColor: '#33a06c',
+    draftTarget: '',
+    editingId: null,
+    habits: [
+      { id: 'med',   name: 'Meditate',    type: 'timed',  target: '10 min · timed', abbr: 'Me', color: '#33a06c', bg: 'rgba(76,195,138,0.15)', done: false },
+      { id: 'water', name: 'Drink water', type: 'count',  count: 5, goal: 8,          abbr: 'Wa', color: '#2f7fe0', bg: 'rgba(74,157,255,0.15)' },
+      { id: 'run',   name: 'Morning run', type: 'yesno',  target: 'Mon · Wed · Fri',  abbr: 'Ru', color: '#e0512f', bg: 'rgba(255,107,74,0.15)', done: true },
+      { id: 'read',  name: 'Read',        type: 'yesno',  target: '20 pages',         abbr: 'Re', color: '#8659e6', bg: 'rgba(169,123,255,0.15)', done: true },
+      { id: 'jrnl',  name: 'Journal',     type: 'yesno',  target: '1 entry',          abbr: 'Jo', color: '#c78300', bg: 'rgba(255,176,32,0.18)', done: false },
+    ]
+  };
+
+  toggle = (id) => this.setState(s => ({ habits: s.habits.map(h => h.id === id ? { ...h, done: !h.done } : h) }));
+  addWater = (id) => this.setState(s => ({ habits: s.habits.map(h => h.id === id ? { ...h, count: Math.min(h.goal, h.count + 1) === h.count && h.count >= h.goal ? 0 : Math.min(h.goal, h.count + 1) } : h) }));
+
+  isDone(h) { return h.type === 'count' ? h.count >= h.goal : h.type === 'health' ? h.pct >= 100 : !!h.done; }
+
+  hexToRgba(hex, a) {
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+  }
+
+  deleteHabit = (id) => this.setState(s => ({ habits: s.habits.filter(h => h.id !== id) }));
+
+  openEdit = (h) => this.setState({
+    sheetOpen: true,
+    editingId: h.id,
+    draftName: h.name,
+    draftType: h.type,
+    draftColor: h.color,
+    draftTarget: (h.type === 'count') ? String(h.goal) + ' glasses' : (h.target || '').replace(/\s·\s.*$/, ''),
+  });
+
+  createHabit = () => {
+    const name = this.state.draftName.trim();
+    if (!name) return;
+    const type = this.state.draftType;
+    const color = this.state.draftColor;
+    const subMap = { yesno: 'Every day', timed: '10 min · timed', count: '0 of 8', sched: 'Mon · Wed · Fri' };
+    const base = {
+      id: 'h' + Date.now(),
+      name,
+      abbr: name.trim().slice(0, 2).replace(/^./, c => c.toUpperCase()),
+      color,
+      bg: this.hexToRgba(color, 0.15),
+    };
+    const target = this.state.draftTarget.trim();
+    const prev = this.state.editingId ? this.state.habits.find(h => h.id === this.state.editingId) : null;
+    const same = prev && prev.type === type;
+    const goalNum = parseInt(target, 10);
+    let habit;
+    if (type === 'health') habit = { ...base, type: 'health', target: (target || '10,000 steps') + ' · Apple Health', pct: same ? prev.pct : 62 };
+    else if (type === 'count') habit = { ...base, type: 'count', count: same ? prev.count : 0, goal: goalNum > 0 ? goalNum : 8 };
+    else if (type === 'timed') habit = { ...base, type: 'timed', target: (target || '10 min') + ' · timed', done: same ? prev.done : false };
+    else habit = { ...base, type: 'yesno', target: target || subMap[type] || 'Every day', done: same ? prev.done : false };
+    this.setState(s => ({
+      habits: this.state.editingId
+        ? s.habits.map(h => h.id === this.state.editingId ? { ...habit, id: this.state.editingId } : h)
+        : [...s.habits, habit],
+      sheetOpen: false, editingId: null, draftName: '', draftType: 'yesno', draftColor: '#33a06c', draftTarget: ''
+    }));
+  };
+
+  render_control(h) {
+    const R = React.createElement;
+    if (h.type === 'timed') {
+      const done = !!h.done;
+      return R('div', { style: { width: 44, height: 44, borderRadius: '50%', background: done ? '#4CC38A' : 'conic-gradient(#4CC38A 216deg,#eceae4 0)', display: 'grid', placeItems: 'center' } },
+        done ? R('span', { style: { color: '#fff', fontSize: 17, fontWeight: 700 } }, '✓')
+             : R('div', { style: { width: 34, height: 34, borderRadius: '50%', background: '#fff', display: 'grid', placeItems: 'center', font: "700 10px 'Space Mono',monospace", color: '#33a06c' } }, '6:00'));
+    }
+    if (h.type === 'count') {
+      const segs = [];
+      for (let i = 0; i < h.goal; i++) segs.push(R('div', { key: i, style: { flex: 1, height: 5, borderRadius: 3, background: i < h.count ? '#4A9DFF' : '#e3e0d8' } }));
+      return R('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, width: 96 } },
+        R('div', { style: { display: 'flex', gap: 3, width: '100%' } }, segs),
+        R('div', { style: { font: "700 13px 'Space Mono',monospace", color: '#2f7fe0' } }, h.count + '/' + h.goal));
+    }
+    if (h.type === 'health') {
+      const deg = Math.round((h.pct / 100) * 360);
+      return R('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 } },
+        R('div', { style: { width: 44, height: 44, borderRadius: '50%', background: `conic-gradient(#ff2d55 ${deg}deg,#eceae4 0)`, display: 'grid', placeItems: 'center' } },
+          R('div', { style: { width: 34, height: 34, borderRadius: '50%', background: '#fff', display: 'grid', placeItems: 'center', color: '#ff2d55', fontSize: 16 } }, '♥')),
+        R('div', { style: { font: "700 9px 'Space Mono',monospace", color: '#8a8378' } }, h.pct + '%'));
+    }
+    // yesno
+    return h.done
+      ? R('div', { style: { width: 32, height: 32, borderRadius: '50%', background: '#4CC38A', display: 'grid', placeItems: 'center', color: '#fff', fontSize: 17, fontWeight: 700 } }, '✓')
+      : R('div', { style: { width: 32, height: 32, borderRadius: '50%', border: '2px solid #ddd8cd' } });
+  }
+
+  renderVals() {
+    const p = this.props;
+    const name = p.userName ?? 'Alex';
+    const s = this.state;
+    const total = s.habits.length;
+    const done = s.habits.filter(h => this.isDone(h)).length;
+    const deg = total ? Math.round((done / total) * 360) : 0;
+
+    const habits = s.habits.map(h => {
+      const d = this.isDone(h);
+      const sub = h.type === 'count' ? h.count + ' of ' + h.goal + ' glasses' : h.target;
+      return {
+        ...h, abbr: h.abbr, name: h.name, sub,
+        iconBg: h.bg, iconColor: h.color,
+        cardBg: d ? 'rgba(76,195,138,0.08)' : '#fff',
+        control: this.render_control(h),
+        trailing: s.editMode
+          ? React.createElement('div', { onClick: (e) => { e.stopPropagation(); this.deleteHabit(h.id); }, style: { width: 32, height: 32, borderRadius: '50%', background: 'rgba(224,58,58,0.12)', display: 'grid', placeItems: 'center', color: '#e03a3a', fontSize: 18, fontWeight: 700, cursor: 'pointer' } }, '×')
+          : this.render_control(h),
+        onTap: s.editMode ? () => this.openEdit(h) : (h.type === 'health' ? () => {} : (h.type === 'count' ? () => this.addWater(h.id) : () => this.toggle(h.id))),
+      };
+    });
+
+    const typeDefs = [
+      { key: 'yesno', label: 'Yes / No', icon: '✓' },
+      { key: 'count', label: 'Countable', icon: '🔢' },
+      { key: 'timed', label: 'Timed', icon: '⏱' },
+      { key: 'sched', label: 'Scheduled', icon: '📅' },
+      { key: 'health', label: 'Apple Health', icon: '♥' },
+    ];
+    const typeOptions = typeDefs.map(t => {
+      const on = s.draftType === t.key;
+      return {
+        ...t,
+        bg: on ? 'rgba(255,107,74,0.1)' : '#fff',
+        border: on ? '#FF6B4A' : 'rgba(0,0,0,0.06)',
+        textColor: on ? '#e0512f' : '#1c1a17',
+        onPick: () => this.setState({ draftType: t.key }),
+      };
+    });
+    const palette = ['#33a06c', '#2f7fe0', '#8659e6', '#e0512f', '#c78300'];
+    const colorOptions = palette.map(c => {
+      const on = s.draftColor === c;
+      return { color: c, check: on ? '✓' : '', ring: on ? '0 0 0 3px #f4f0e8, 0 0 0 5px ' + c : 'none', onPick: () => this.setState({ draftColor: c }) };
+    });
+    const canCreate = s.draftName.trim().length > 0;
+    const isHealth = s.draftType === 'health';
+    const needsTarget = isHealth || s.draftType === 'count' || s.draftType === 'timed';
+    const targetLabel = isHealth ? 'Daily target' : s.draftType === 'timed' ? 'Duration' : 'Daily goal';
+    const targetPlaceholder = isHealth ? 'e.g. 10,000 steps' : s.draftType === 'timed' ? 'e.g. 10 min' : 'e.g. 8 glasses';
+
+    const active = '#FF6B4A', idle = '#c2bcae';
+    const mVals = [70,55,88,64,92,78,100,46,83,60,95,72];
+    const mLabels = ['1','','','','5','','','','','10','','12'];
+    const statBars = mVals.map((v,i) => ({ h: v+'%', label: mLabels[i]||' ', bg: v>=90 ? '#FF6B4A' : 'rgba(255,107,74,0.3)' }));
+
+    let s2 = 91; const rnd2 = () => { s2 = (s2*9301+49297)%233280; return s2/233280; };
+    const dayCols = { 1:'rgba(255,107,74,0.26)', 2:'rgba(255,107,74,0.58)', 3:'#FF6B4A' };
+    const calendarDays = [];
+    for (let b=0;b<2;b++) calendarDays.push({ day:'', bg:'transparent', txt:'transparent' });
+    for (let dd=1; dd<=31; dd++) {
+      let bg='rgba(0,0,0,0.045)', txt='#c2bcae';
+      if (dd<20) { const r=rnd2(); const lvl=r<0.16?1:r<0.5?2:3; bg=dayCols[lvl]; txt=lvl>=2?'#fff':'#a8492f'; }
+      else if (dd===20) { bg='#1c1a17'; txt='#fff'; }
+      calendarDays.push({ day:String(dd), bg, txt });
+    }
+
+    return {
+      userName: name,
+      initial: name.trim().charAt(0).toUpperCase() || 'A',
+      firstName: name.trim().split(/\s+/)[0] || 'there',
+      isToday: s.screen==='today', isStats: s.screen==='stats', isHistory: s.screen==='history', isMe: s.screen==='me',
+      cToday: s.screen==='today'?active:idle, cStats: s.screen==='stats'?active:idle, cHistory: s.screen==='history'?active:idle, cMe: s.screen==='me'?active:idle,
+      meFill: s.screen==='me'?active:'transparent',
+      goToday: () => this.setState({screen:'today'}), goStats: () => this.setState({screen:'stats'}), goHistory: () => this.setState({screen:'history'}), goMe: () => this.setState({screen:'me'}),
+      habits, doneCount: done, totalCount: total, ratioText: done + '/' + total,
+      ringGradient: `conic-gradient(#fff ${deg}deg, rgba(255,255,255,0.28) 0)`,
+      statBars, calendarDays,
+      sheetOpen: s.sheetOpen,
+      isEditing: !!s.editingId,
+      sheetTitle: s.editingId ? 'Edit habit' : 'New habit',
+      createLabel: s.editingId ? 'Save changes' : 'Create habit',
+      openSheet: () => this.setState({ sheetOpen: true, editingId: null, draftName: '', draftType: 'yesno', draftColor: '#33a06c', draftTarget: '' }),
+      closeSheet: () => this.setState({ sheetOpen: false, editingId: null }),
+      draftName: s.draftName,
+      onNameInput: (e) => this.setState({ draftName: e.target.value }),
+      typeOptions, colorOptions,
+      createHabit: this.createHabit,
+      createBg: canCreate ? '#FF6B4A' : '#d8b3a6',
+      createCursor: canCreate ? 'pointer' : 'not-allowed',
+      needsTarget, isHealth, targetLabel, targetPlaceholder,
+      draftTarget: s.draftTarget,
+      onTargetInput: (e) => this.setState({ draftTarget: e.target.value }),
+      theme: s.theme,
+      toggleTheme: () => this.setState(st => ({ theme: st.theme === 'dark' ? 'light' : 'dark' })),
+      themeLabel: s.theme === 'dark' ? 'On' : 'Off',
+      themeTrack: s.theme === 'dark' ? '#4CC38A' : '#cfc7b6',
+      themeKnob: s.theme === 'dark' ? '20px' : '2px',
+      toggleEdit: () => this.setState(st => ({ editMode: !st.editMode })),
+      editLabel: s.editMode ? 'Done' : 'Edit',
+      editColor: s.editMode ? '#fff' : '#8a8378',
+      editBg: s.editMode ? '#FF6B4A' : '#e3ddd0',
+    };
+  }
+}
+</script>
+</body>
+</html>

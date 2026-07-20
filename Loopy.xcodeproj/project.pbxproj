@@ -1,0 +1,542 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07D06BE827A96BF957BD63B2 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0504124265DFC6E84F28B6D1 /* TodayView.swift */; };
+		41835FB6294073EFE706D575 /* HabitModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7410572FCA9BF8875286E196 /* HabitModels.swift */; };
+		69C56DA511B268196D102BFE /* HabitAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */; };
+		AA0F11C942E2EF185F87E139 /* HabitAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */; };
+		B82D24B89606FAD05D7C7B97 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6B7E925055C0014A8D409B /* StatsView.swift */; };
+		BCA35E3D21077C1F9E67ABE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */; };
+		BF0CF5ACFC6CB7CA3F9D819B /* LoopyTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */; };
+		D272045B7459BC89D3093778 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C03D6E07B35E791114171 /* HistoryView.swift */; };
+		E53046EB08CBBCD63E8243B7 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */; };
+		EFA31FF2D24C2253E9DF01B6 /* LoopyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09385EE3D87741D35ECEB75E /* LoopyApp.swift */; };
+		FAF0DC2AB088EF3F3B730E40 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F53503EB6D3E63361883A0 /* ProfileView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4E4A94EFC3C626614DF4D4DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9034B2AF020DB78B3E66FD91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0994D3BCD1C325E751EB63D4;
+			remoteInfo = Loopy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitAnalyticsTests.swift; sourceTree = "<group>"; };
+		0504124265DFC6E84F28B6D1 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		09385EE3D87741D35ECEB75E /* LoopyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyApp.swift; sourceTree = "<group>"; };
+		1A7C03D6E07B35E791114171 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
+		46F53503EB6D3E63361883A0 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyTheme.swift; sourceTree = "<group>"; };
+		7410572FCA9BF8875286E196 /* HabitModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitModels.swift; sourceTree = "<group>"; };
+		838366364D55B691EF7C6A83 /* Loopy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Loopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		91AE450DED8FD4F4FCFF8A16 /* LoopyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LoopyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE6B7E925055C0014A8D409B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitAnalytics.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		02FE1FF596A8E369ABB0DB6D /* HabitEditor */ = {
+			isa = PBXGroup;
+			children = (
+				3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */,
+			);
+			path = HabitEditor;
+			sourceTree = "<group>";
+		};
+		1501C8146F3F456351B50941 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				09385EE3D87741D35ECEB75E /* LoopyApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3BE0CA885FA00BF720E33A5F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				46F53503EB6D3E63361883A0 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		44318293925E0BD0AA892CF1 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */,
+				7410572FCA9BF8875286E196 /* HabitModels.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		49260C0D3168FAD83D270831 /* Today */ = {
+			isa = PBXGroup;
+			children = (
+				0504124265DFC6E84F28B6D1 /* TodayView.swift */,
+			);
+			path = Today;
+			sourceTree = "<group>";
+		};
+		4974C178414B9A499B55E6CA /* LoopyTests */ = {
+			isa = PBXGroup;
+			children = (
+				023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */,
+			);
+			path = LoopyTests;
+			sourceTree = "<group>";
+		};
+		71F1EEA8F8147E7BBAF7DF23 /* Loopy */ = {
+			isa = PBXGroup;
+			children = (
+				1501C8146F3F456351B50941 /* App */,
+				A11D25664A03756B88B2CC56 /* Core */,
+				44318293925E0BD0AA892CF1 /* Data */,
+				AD2DD09483355FF5512A01B7 /* Features */,
+				D3301267784C1E8ABED9E7DF /* Resources */,
+			);
+			path = Loopy;
+			sourceTree = "<group>";
+		};
+		A11D25664A03756B88B2CC56 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		AD2DD09483355FF5512A01B7 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				02FE1FF596A8E369ABB0DB6D /* HabitEditor */,
+				FDE7A48E75790A3DB1ECD87A /* History */,
+				3BE0CA885FA00BF720E33A5F /* Profile */,
+				AE5D3B4FC08512A2BCA692D9 /* Stats */,
+				49260C0D3168FAD83D270831 /* Today */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		AE5D3B4FC08512A2BCA692D9 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				DE6B7E925055C0014A8D409B /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		C63063CB1889D0CE0321E355 = {
+			isa = PBXGroup;
+			children = (
+				71F1EEA8F8147E7BBAF7DF23 /* Loopy */,
+				4974C178414B9A499B55E6CA /* LoopyTests */,
+				D0815BF3B2251EAF84E8B4FB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D0815BF3B2251EAF84E8B4FB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				838366364D55B691EF7C6A83 /* Loopy.app */,
+				91AE450DED8FD4F4FCFF8A16 /* LoopyTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D3301267784C1E8ABED9E7DF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FDE7A48E75790A3DB1ECD87A /* History */ = {
+			isa = PBXGroup;
+			children = (
+				1A7C03D6E07B35E791114171 /* HistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0994D3BCD1C325E751EB63D4 /* Loopy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 306EAF1E9B235345F3985D32 /* Build configuration list for PBXNativeTarget "Loopy" */;
+			buildPhases = (
+				B9F97CFF728FB9256A84FD4D /* Sources */,
+				13F42CA1CB19578EB51FCDDB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Loopy;
+			packageProductDependencies = (
+			);
+			productName = Loopy;
+			productReference = 838366364D55B691EF7C6A83 /* Loopy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BD37CD01D4EF309493B48E95 /* LoopyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6297894FEB71831676618B4D /* Build configuration list for PBXNativeTarget "LoopyTests" */;
+			buildPhases = (
+				A6F2636D3C83917057427FE0 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DD9D92B235E87356DE0AED99 /* PBXTargetDependency */,
+			);
+			name = LoopyTests;
+			packageProductDependencies = (
+			);
+			productName = LoopyTests;
+			productReference = 91AE450DED8FD4F4FCFF8A16 /* LoopyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9034B2AF020DB78B3E66FD91 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					0994D3BCD1C325E751EB63D4 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					BD37CD01D4EF309493B48E95 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 85E670735CC23E12E5453F23 /* Build configuration list for PBXProject "Loopy" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C63063CB1889D0CE0321E355;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D0815BF3B2251EAF84E8B4FB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0994D3BCD1C325E751EB63D4 /* Loopy */,
+				BD37CD01D4EF309493B48E95 /* LoopyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		13F42CA1CB19578EB51FCDDB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCA35E3D21077C1F9E67ABE2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A6F2636D3C83917057427FE0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0F11C942E2EF185F87E139 /* HabitAnalyticsTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B9F97CFF728FB9256A84FD4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69C56DA511B268196D102BFE /* HabitAnalytics.swift in Sources */,
+				E53046EB08CBBCD63E8243B7 /* HabitEditorView.swift in Sources */,
+				41835FB6294073EFE706D575 /* HabitModels.swift in Sources */,
+				D272045B7459BC89D3093778 /* HistoryView.swift in Sources */,
+				EFA31FF2D24C2253E9DF01B6 /* LoopyApp.swift in Sources */,
+				BF0CF5ACFC6CB7CA3F9D819B /* LoopyTheme.swift in Sources */,
+				FAF0DC2AB088EF3F3B730E40 /* ProfileView.swift in Sources */,
+				B82D24B89606FAD05D7C7B97 /* StatsView.swift in Sources */,
+				07D06BE827A96BF957BD63B2 /* TodayView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DD9D92B235E87356DE0AED99 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0994D3BCD1C325E751EB63D4 /* Loopy */;
+			targetProxy = 4E4A94EFC3C626614DF4D4DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		248B6520A99F45D7086EE178 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		4A22DB2E5E14B572D6780328 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy;
+				PRODUCT_NAME = Loopy;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6F4517137F702AB7DEE39197 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Loopy.app/Loopy";
+			};
+			name = Debug;
+		};
+		756DAF82CA03BA9A37064A3A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		B7EBD1C3EC11340042B6206E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy;
+				PRODUCT_NAME = Loopy;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FAD76AAC1F99592E8B72BA5E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Loopy.app/Loopy";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		306EAF1E9B235345F3985D32 /* Build configuration list for PBXNativeTarget "Loopy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B7EBD1C3EC11340042B6206E /* Debug */,
+				4A22DB2E5E14B572D6780328 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6297894FEB71831676618B4D /* Build configuration list for PBXNativeTarget "LoopyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F4517137F702AB7DEE39197 /* Debug */,
+				FAD76AAC1F99592E8B72BA5E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		85E670735CC23E12E5453F23 /* Build configuration list for PBXProject "Loopy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				756DAF82CA03BA9A37064A3A /* Debug */,
+				248B6520A99F45D7086EE178 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9034B2AF020DB78B3E66FD91 /* Project object */;
+}
