@@ -2,6 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct HistoryView: View {
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Query(sort: \Habit.sortOrder) private var habits: [Habit]
     @Query private var checkIns: [HabitCheckIn]
     @State private var displayedMonth = Calendar.current.dateInterval(of: .month, for: .now)?.start ?? .now
@@ -22,22 +23,33 @@ struct HistoryView: View {
     }
 
     private var monthStats: [DailyCompletion] {
-        monthDays.compactMap { $0 }.map {
+        monthDays.compactMap { $0 }.filter { $0 <= .now }.map {
             HabitAnalytics.dailyCompletion(on: $0, habits: habits, checkIns: checkIns)
         }
     }
 
+    private var activeDays: Int {
+        monthStats.filter { $0.completed > 0 }.count
+    }
+
+    private var perfectDays: Int {
+        monthStats.filter(\.isPerfect).count
+    }
+
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            LazyVStack(spacing: 16) {
+                pageHeader
                 streakBanner
                 calendarCard
                 monthSummary
             }
-            .padding()
+            .padding(.horizontal, 18)
+            .padding(.top, 14)
+            .padding(.bottom, 28)
         }
-        .background(LoopyTheme.background)
-        .navigationTitle("History")
+        .background(LoopyTheme.background.ignoresSafeArea())
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: Binding(
             get: { selectedDate != nil },
             set: { if !$0 { selectedDate = nil } }
@@ -48,61 +60,95 @@ struct HistoryView: View {
         }
     }
 
+    private var pageHeader: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("History")
+                .font(.title.bold())
+            Text("Every day you showed up")
+                .font(.subheadline.weight(.medium))
+                .foregroundStyle(LoopyTheme.secondaryText)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
     private var streakBanner: some View {
         let streak = HabitAnalytics.currentStreak(asOf: .now, habits: habits, checkIns: checkIns)
-        return HStack(spacing: 14) {
+        let best = HabitAnalytics.personalBestStreak(asOf: .now, habits: habits, checkIns: checkIns)
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+            : AnyLayout(HStackLayout(spacing: 14))
+
+        return layout {
             Text(streak, format: .number)
-                .font(.system(size: 42, weight: .bold, design: .monospaced))
-            VStack(alignment: .leading) {
+                .font(.system(size: 44, weight: .bold, design: .rounded))
+                .monospacedDigit()
+            VStack(alignment: .leading, spacing: 2) {
                 Text("day streak")
                     .font(.headline)
-                Text(streak == 0 ? "Complete every due habit to begin" : "Keep your loop alive")
-                    .font(.caption)
-                    .opacity(0.9)
+                Label {
+                    Text(streak == 0
+                         ? "Complete every due habit to begin"
+                         : "Keep it alive — best was \(best)")
+                } icon: {
+                    Image(systemName: "flame.fill")
+                }
+                .font(.caption.weight(.semibold))
+                .opacity(0.9)
             }
-            Spacer()
-            Image(systemName: "flame.fill")
-                .font(.title)
-                .accessibilityHidden(true)
+            Spacer(minLength: 0)
         }
         .foregroundStyle(.white)
-        .padding(18)
-        .background(LoopyTheme.coral, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .padding(.horizontal, 20)
+        .padding(.vertical, 18)
+        .background(LoopyTheme.coral, in: RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .shadow(color: LoopyTheme.coral.opacity(0.3), radius: 14, y: 9)
+        .accessibilityElement(children: .combine)
     }
 
     private var calendarCard: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 18) {
             HStack {
-                Button("Previous month", systemImage: "chevron.left") {
+                monthButton(title: "Previous month", systemImage: "chevron.left") {
                     moveMonth(by: -1)
                 }
-                .labelStyle(.iconOnly)
+
                 Spacer()
+
                 Text(displayedMonth, format: .dateTime.month(.wide).year())
-                    .font(.headline)
+                    .font(.title3.bold())
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+
                 Spacer()
-                Button("Next month", systemImage: "chevron.right") {
+
+                monthButton(title: "Next month", systemImage: "chevron.right") {
                     moveMonth(by: 1)
                 }
-                .labelStyle(.iconOnly)
                 .disabled(calendar.isDate(displayedMonth, equalTo: .now, toGranularity: .month))
             }
 
             LazyVGrid(columns: columns, spacing: 7) {
                 ForEach(Array(calendar.veryShortWeekdaySymbols.enumerated()), id: \.offset) { _, symbol in
                     Text(symbol)
-                        .font(.caption2.bold())
-                        .foregroundStyle(.secondary)
+                        .font(.caption2.monospaced().bold())
+                        .foregroundStyle(LoopyTheme.secondaryText)
+                        .frame(maxWidth: .infinity)
                 }
 
                 ForEach(Array(monthDays.enumerated()), id: \.offset) { _, date in
                     if let date {
                         DayCell(
                             date: date,
-                            completion: HabitAnalytics.dailyCompletion(on: date, habits: habits, checkIns: checkIns),
-                            isFuture: date > .now
+                            completion: HabitAnalytics.dailyCompletion(
+                                on: date,
+                                habits: habits,
+                                checkIns: checkIns
+                            ),
+                            isFuture: calendar.startOfDay(for: date) > calendar.startOfDay(for: .now)
                         )
-                        .onTapGesture { selectedDate = date }
+                        .onTapGesture {
+                            if date <= .now { selectedDate = date }
+                        }
                     } else {
                         Color.clear.aspectRatio(1, contentMode: .fit)
                     }
@@ -112,37 +158,67 @@ struct HistoryView: View {
             HStack(spacing: 6) {
                 Text("Less")
                 ForEach([0.08, 0.3, 0.6, 1.0], id: \.self) { opacity in
-                    RoundedRectangle(cornerRadius: 3)
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
                         .fill(LoopyTheme.coral.opacity(opacity))
-                        .frame(width: 13, height: 13)
+                        .frame(width: 14, height: 14)
                 }
                 Text("More")
             }
-            .font(.caption2)
-            .foregroundStyle(.secondary)
+            .font(.caption2.monospaced().bold())
+            .foregroundStyle(LoopyTheme.secondaryText)
             .frame(maxWidth: .infinity, alignment: .trailing)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Calendar completion scale from less to more")
         }
         .padding(18)
-        .loopyCard()
+        .background(LoopyTheme.card, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: 26, style: .continuous)
+                .stroke(.primary.opacity(0.05))
+        }
+    }
+
+    private func monthButton(
+        title: String,
+        systemImage: String,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Image(systemName: systemImage)
+                .font(.body.bold())
+                .foregroundStyle(LoopyTheme.secondaryText)
+                .frame(width: 44, height: 44)
+                .background(LoopyTheme.chip, in: RoundedRectangle(cornerRadius: 13, style: .continuous))
+        }
+        .accessibilityLabel(title)
     }
 
     private var monthSummary: some View {
-        HStack(spacing: 10) {
+        let month = displayedMonth.formatted(.dateTime.month(.abbreviated))
+        let layout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: 10))
+            : AnyLayout(HStackLayout(spacing: 10))
+
+        return layout {
             MetricCard(
-                value: monthStats.filter { $0.completed > 0 }.count,
-                label: "Active days",
-                color: LoopyTheme.coral
+                value: activeDays,
+                label: "Active days in \(month)",
+                color: .primary,
+                minimumHeight: 96
             )
             MetricCard(
-                value: monthStats.filter(\.isPerfect).count,
+                value: perfectDays,
                 label: "Perfect days",
-                color: LoopyTheme.green
+                color: .primary,
+                minimumHeight: 96
             )
         }
     }
 
     private func moveMonth(by offset: Int) {
-        displayedMonth = calendar.date(byAdding: .month, value: offset, to: displayedMonth) ?? displayedMonth
+        withAnimation(.snappy) {
+            displayedMonth = calendar.date(byAdding: .month, value: offset, to: displayedMonth) ?? displayedMonth
+        }
     }
 }
 
@@ -151,34 +227,39 @@ private struct DayCell: View {
     let completion: DailyCompletion
     let isFuture: Bool
 
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(date)
+    }
+
     var body: some View {
         Text(date, format: .dateTime.day())
             .font(.caption.monospacedDigit().bold())
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .aspectRatio(1, contentMode: .fit)
-            .background(background, in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+            .background(background, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
             .foregroundStyle(foreground)
-            .overlay {
-                if Calendar.current.isDateInToday(date) {
-                    RoundedRectangle(cornerRadius: 9, style: .continuous)
-                        .stroke(.primary, lineWidth: 2)
-                }
-            }
             .contentShape(Rectangle())
             .accessibilityLabel(date.formatted(date: .complete, time: .omitted))
             .accessibilityValue(accessibilityValue)
+            .accessibilityAddTraits(isToday ? .isSelected : [])
     }
 
     private var background: Color {
-        if isFuture || completion.due == 0 { return Color.secondary.opacity(0.08) }
-        return LoopyTheme.coral.opacity(0.18 + completion.ratio * 0.82)
+        if isToday { return .primary }
+        if isFuture || completion.due == 0 { return LoopyTheme.progressTrack.opacity(0.55) }
+        return LoopyTheme.coral.opacity(0.2 + completion.ratio * 0.8)
     }
 
     private var foreground: Color {
-        completion.ratio >= 0.55 ? .white : .primary
+        if isToday { return LoopyTheme.background }
+        if isFuture || completion.due == 0 { return LoopyTheme.secondaryText.opacity(0.6) }
+        return completion.ratio >= 0.5 ? .white : .primary
     }
 
     private var accessibilityValue: String {
+        if isToday {
+            return "Today, \(completion.completed) of \(completion.due) habits completed"
+        }
         if completion.due == 0 { return "No habits due" }
         return "\(completion.completed) of \(completion.due) habits completed"
     }
@@ -191,7 +272,11 @@ private struct DayDetailView: View {
     let checkIns: [HabitCheckIn]
 
     private var dueHabits: [Habit] {
-        habits.filter { $0.createdAt <= date && $0.isDue(on: date) }
+        habits.filter { habit in
+            let existed = habit.createdAt <= date
+            let wasNotArchived = habit.archivedAt.map { $0 > date } ?? true
+            return existed && wasNotArchived && habit.isDue(on: date)
+        }
     }
 
     var body: some View {
@@ -224,5 +309,6 @@ private struct DayDetailView: View {
                 }
             }
         }
+        .tint(LoopyTheme.coral)
     }
 }
