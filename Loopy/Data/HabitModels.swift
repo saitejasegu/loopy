@@ -5,6 +5,8 @@ enum HabitTrackingKind: String, Codable, CaseIterable, Identifiable {
     case binary
     case count
     case duration
+    case healthSteps
+    case healthActiveEnergy
 
     var id: String { rawValue }
 
@@ -13,6 +15,8 @@ enum HabitTrackingKind: String, Codable, CaseIterable, Identifiable {
         case .binary: "Yes / No"
         case .count: "Count"
         case .duration: "Timed"
+        case .healthSteps: "Steps"
+        case .healthActiveEnergy: "Active energy"
         }
     }
 
@@ -21,8 +25,19 @@ enum HabitTrackingKind: String, Codable, CaseIterable, Identifiable {
         case .binary: "checkmark.circle"
         case .count: "number.circle"
         case .duration: "timer"
+        case .healthSteps: "figure.walk"
+        case .healthActiveEnergy: "flame.fill"
         }
     }
+
+    var isHealthBacked: Bool {
+        self == .healthSteps || self == .healthActiveEnergy
+    }
+
+    /// Kinds selectable in the habit editor without Health entitlement UX.
+    static var manualCases: [HabitTrackingKind] { [.binary, .count, .duration] }
+
+    static var healthCases: [HabitTrackingKind] { [.healthSteps, .healthActiveEnergy] }
 }
 
 @Model
@@ -37,6 +52,10 @@ final class Habit {
     var sortOrder: Int
     var createdAt: Date
     var archivedAt: Date?
+    /// Additive optional fields — keep defaults for lightweight migration.
+    var reminderEnabled: Bool
+    var reminderHour: Int
+    var reminderMinute: Int
 
     init(
         id: UUID = UUID(),
@@ -48,7 +67,10 @@ final class Habit {
         weekdaysMask: Int = HabitSchedule.everyDayMask,
         sortOrder: Int = 0,
         createdAt: Date = .now,
-        archivedAt: Date? = nil
+        archivedAt: Date? = nil,
+        reminderEnabled: Bool = false,
+        reminderHour: Int = 9,
+        reminderMinute: Int = 0
     ) {
         self.id = id
         self.name = name
@@ -60,6 +82,9 @@ final class Habit {
         self.sortOrder = sortOrder
         self.createdAt = createdAt
         self.archivedAt = archivedAt
+        self.reminderEnabled = reminderEnabled
+        self.reminderHour = reminderHour
+        self.reminderMinute = reminderMinute
     }
 
     var trackingKind: HabitTrackingKind {
@@ -137,4 +162,3 @@ enum DayKey {
         )
     }
 }
-

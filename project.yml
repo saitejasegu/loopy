@@ -19,6 +19,9 @@ targets:
     platform: iOS
     sources:
       - path: Loopy
+    dependencies:
+      - target: LoopyWidgetExtension
+        embed: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.saitejasegu.loopy
@@ -29,8 +32,39 @@ targets:
         INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone: UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_NSHealthShareUsageDescription: Loopy reads step count and active energy from Apple Health to update Health-backed habits.
+        INFOPLIST_KEY_NSHealthUpdateUsageDescription: Loopy does not write workout data to Apple Health; it only reads activity summaries for habit progress.
+        INFOPLIST_KEY_NSUserNotificationsUsageDescription: Loopy sends optional reminders when it is time to complete a habit.
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_ENTITLEMENTS: Loopy/Resources/Loopy.entitlements
+  LoopyWidgetExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: LoopyWidget
+      - path: Loopy/Data
+        excludes:
+          - HabitReminderScheduler.swift
+          - HealthKitHabitSync.swift
+      - path: Loopy/Core
+      - path: Loopy/Intents/OpenTodayIntent.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.saitejasegu.loopy.widget
+        PRODUCT_NAME: LoopyWidgetExtension
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Loopy
+        INFOPLIST_KEY_NSHumanReadableCopyright: ""
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
+        CODE_SIGN_ENTITLEMENTS: LoopyWidget/LoopyWidget.entitlements
+        SKIP_INSTALL: YES
+    info:
+      path: LoopyWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Loopy
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
   LoopyTests:
     type: bundle.unit-test
     platform: iOS
@@ -42,3 +76,26 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.saitejasegu.loopy.tests
         GENERATE_INFOPLIST_FILE: YES
+  LoopyUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: LoopyUITests
+    dependencies:
+      - target: Loopy
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.saitejasegu.loopy.uitests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Loopy:
+    build:
+      targets:
+        Loopy: all
+        LoopyWidgetExtension: all
+        LoopyTests: [test]
+        LoopyUITests: [test]
+    test:
+      targets:
+        - LoopyTests
+        - LoopyUITests

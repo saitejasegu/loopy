@@ -8,9 +8,11 @@ struct ProfileView: View {
     @Query private var checkIns: [HabitCheckIn]
     @AppStorage("displayName") private var displayName = ""
     @AppStorage("appearance") private var appearanceRaw = AppearancePreference.system.rawValue
+    @AppStorage("iCloudSyncEnabled") private var iCloudSyncEnabled = true
 
     @State private var isEditingName = false
     @State private var draftName = ""
+    @State private var isPresentingArchive = false
 
     private var activeHabits: [Habit] {
         habits.filter { $0.archivedAt == nil }
@@ -44,6 +46,19 @@ struct ProfileView: View {
         )
     }
 
+    private var achievements: [AchievementProgress] {
+        AchievementCatalog.progress(habits: habits, checkIns: checkIns)
+    }
+
+    private var unlockedCount: Int {
+        achievements.filter(\.isUnlocked).count
+    }
+
+    private var iCloudStatusText: String {
+        if !iCloudSyncEnabled { return "Off" }
+        return LoopyPersistence.isICloudAccountAvailable ? "iCloud" : "Waiting for iCloud"
+    }
+
     var body: some View {
         ScrollView {
             LazyVStack(spacing: 16) {
@@ -67,6 +82,9 @@ struct ProfileView: View {
             }
         } message: {
             Text("This stays on your device and is used only for your greeting.")
+        }
+        .sheet(isPresented: $isPresentingArchive) {
+            ArchivedHabitsView()
         }
     }
 
@@ -128,7 +146,7 @@ struct ProfileView: View {
                 Text("Achievements")
                     .font(.headline)
                 Spacer()
-                Text("Coming soon")
+                Text("\(unlockedCount) / \(achievements.count)")
                     .font(.caption.monospaced().bold())
                     .foregroundStyle(LoopyTheme.secondaryText)
             }
@@ -137,26 +155,9 @@ struct ProfileView: View {
                 columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: dynamicTypeSize.isAccessibilitySize ? 2 : 4),
                 spacing: 16
             ) {
-                AchievementTile(
-                    title: "Streaks",
-                    systemImage: "flame.fill",
-                    color: Color(hex: "#FFB020")
-                )
-                AchievementTile(
-                    title: "Early riser",
-                    systemImage: "sunrise.fill",
-                    color: LoopyTheme.green
-                )
-                AchievementTile(
-                    title: "Bookworm",
-                    systemImage: "books.vertical.fill",
-                    color: Color(hex: "#8659E6")
-                )
-                AchievementTile(
-                    title: "Locked",
-                    systemImage: "lock.fill",
-                    color: LoopyTheme.secondaryText
-                )
+                ForEach(achievements.prefix(8)) { item in
+                    AchievementTile(progress: item)
+                }
             }
         }
         .padding(18)
@@ -165,19 +166,49 @@ struct ProfileView: View {
             RoundedRectangle(cornerRadius: 26, style: .continuous)
                 .stroke(.primary.opacity(0.05))
         }
+        .accessibilityElement(children: .contain)
     }
 
     private var settingsCard: some View {
         VStack(spacing: 0) {
-            ProfileSettingRow(
-                title: "Reminders",
-                systemImage: "bell.fill",
-                color: LoopyTheme.coral
-            ) {
-                Text("Coming soon")
-                    .font(.caption.monospaced().bold())
-                    .foregroundStyle(LoopyTheme.secondaryText)
+            NavigationLink {
+                RemindersSettingsView()
+            } label: {
+                ProfileSettingRow(
+                    title: "Reminders",
+                    systemImage: "bell.fill",
+                    color: LoopyTheme.coral
+                ) {
+                    let count = activeHabits.filter(\.reminderEnabled).count
+                    Text(count == 0 ? "Off" : "\(count) active")
+                        .font(.caption.monospaced().bold())
+                        .foregroundStyle(LoopyTheme.secondaryText)
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(LoopyTheme.secondaryText)
+                }
             }
+            .buttonStyle(.plain)
+
+            Divider().padding(.leading, 58)
+
+            Button {
+                isPresentingArchive = true
+            } label: {
+                ProfileSettingRow(
+                    title: "Archived habits",
+                    systemImage: "archivebox.fill",
+                    color: Color(hex: "#8659E6")
+                ) {
+                    Text("\(habits.count - activeHabits.count)")
+                        .font(.caption.monospaced().bold())
+                        .foregroundStyle(LoopyTheme.secondaryText)
+                    Image(systemName: "chevron.right")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(LoopyTheme.secondaryText)
+                }
+            }
+            .buttonStyle(.plain)
 
             Divider().padding(.leading, 58)
 
@@ -203,9 +234,15 @@ struct ProfileView: View {
                 systemImage: "icloud.fill",
                 color: LoopyTheme.green
             ) {
-                Text("Local only")
-                    .font(.caption.monospaced().bold())
-                    .foregroundStyle(LoopyTheme.secondaryText)
+                VStack(alignment: .trailing, spacing: 6) {
+                    Text(iCloudStatusText)
+                        .font(.caption.monospaced().bold())
+                        .foregroundStyle(LoopyTheme.secondaryText)
+                    Toggle("iCloud sync", isOn: $iCloudSyncEnabled)
+                        .labelsHidden()
+                        .tint(LoopyTheme.coral)
+                        .accessibilityLabel("iCloud sync")
+                }
             }
         }
         .background(LoopyTheme.card, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
@@ -256,26 +293,37 @@ private struct ProfileMetricCard: View {
 }
 
 private struct AchievementTile: View {
-    let title: String
-    let systemImage: String
-    let color: Color
+    let progress: AchievementProgress
 
     var body: some View {
         VStack(spacing: 7) {
-            Image(systemName: systemImage)
+            Image(systemName: progress.definition.systemImage)
                 .font(.title2)
-                .foregroundStyle(color.opacity(0.58))
+                .foregroundStyle(Color(hex: progress.definition.colorHex).opacity(progress.isUnlocked ? 1 : 0.45))
                 .frame(width: 52, height: 52)
-                .background(color.opacity(0.11), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            Text(title)
+                .background(
+                    Color(hex: progress.definition.colorHex).opacity(progress.isUnlocked ? 0.16 : 0.08),
+                    in: RoundedRectangle(cornerRadius: 16, style: .continuous)
+                )
+                .overlay {
+                    if !progress.isUnlocked {
+                        Image(systemName: "lock.fill")
+                            .font(.caption2.bold())
+                            .foregroundStyle(.secondary)
+                            .offset(x: 18, y: 18)
+                    }
+                }
+            Text(progress.definition.title)
                 .font(.caption2.weight(.semibold))
-                .foregroundStyle(LoopyTheme.secondaryText)
+                .foregroundStyle(progress.isUnlocked ? .primary : LoopyTheme.secondaryText)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .top)
         .accessibilityElement(children: .combine)
-        .accessibilityValue("Coming soon")
+        .accessibilityLabel(progress.definition.title)
+        .accessibilityValue(progress.isUnlocked ? "Unlocked, \(progress.progressLabel)" : "Locked, \(progress.progressLabel)")
+        .accessibilityHint(progress.definition.detail)
     }
 }
 
@@ -307,11 +355,13 @@ private struct ProfileSettingRow<Accessory: View>: View {
 
             Text(title)
                 .font(.body.weight(.semibold))
+                .foregroundStyle(.primary)
 
             Spacer(minLength: 8)
             accessory()
         }
         .padding(.horizontal, 17)
         .frame(minHeight: 72)
+        .contentShape(Rectangle())
     }
 }

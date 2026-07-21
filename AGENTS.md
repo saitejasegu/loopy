@@ -45,6 +45,17 @@ Keep new work feature-oriented. Put reusable business logic in `Data` or a dedic
 
 When changing models, consider SwiftData migration and future CloudKit compatibility before altering required fields or identity behavior.
 
+### Migration posture
+
+Prefer **additive, optional-friendly** SwiftData changes so existing local stores open without a custom migration stage:
+
+- Add new stored properties with default values in `init` (for example `reminderEnabled`, `reminderHour`, `reminderMinute`).
+- Extend enums via new raw-value cases; never reuse or rename existing raw values.
+- Keep `Habit.id` and `HabitCheckIn` day identity (`habitID` + `dayKey`) stable — CloudKit and widgets depend on them.
+- Do not make previously optional fields required, remove columns, or change property types in place.
+- When a breaking schema change is unavoidable, introduce an explicit `VersionedSchema` / `SchemaMigrationPlan` and cover it with tests before enabling CloudKit.
+- New integrations (reminders, HealthKit kinds, sync flags) must remain offline-safe: progress still lands in dated `HabitCheckIn` rows.
+
 ## Build and test
 
 Generate the project:
@@ -80,7 +91,7 @@ Add or update tests for recurrence, streaks, date boundaries, target calculation
 
 ## Current scope
 
-The local-first MVP includes binary, count, and duration habits, recurrence, timer sessions, statistics, calendar history, appearance settings, and local SwiftData persistence.
+The app includes binary, count, duration, and HealthKit-backed habits (steps / active energy), recurrence, timer sessions, statistics, calendar history with day edits, habit reordering and archive restore, local reminders, achievements, appearance settings, onboarding, App Intents, Home/Lock Screen widgets, private CloudKit sync when available, and local SwiftData persistence (shared via App Group with widgets).
 
-HealthKit, notifications, iCloud sync, widgets, and achievements are future integrations. Do not imply they are functional until their capabilities, permissions, privacy strings, and device tests are implemented.
+Do not claim a capability in UI copy unless its permissions, privacy strings, and device verification for that capability are in place for the build you are shipping.
 

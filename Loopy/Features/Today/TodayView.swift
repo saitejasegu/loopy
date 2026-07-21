@@ -9,6 +9,7 @@ struct TodayView: View {
     @AppStorage("displayName") private var displayName = ""
 
     @State private var isPresentingNewHabit = false
+    @State private var isPresentingArchive = false
     @State private var isEditing = false
     @State private var editingHabit: Habit?
     @State private var timerHabit: Habit?
@@ -54,6 +55,8 @@ struct TodayView: View {
 
                     if dueHabits.isEmpty {
                         emptyState
+                    } else if isEditing {
+                        reorderableList
                     } else {
                         LazyVStack(spacing: 10) {
                             ForEach(dueHabits) { habit in
@@ -94,6 +97,13 @@ struct TodayView: View {
         }
         .sheet(item: $timerHabit) { habit in
             TimerSessionView(habit: habit)
+        }
+        .sheet(isPresented: $isPresentingArchive) {
+            ArchivedHabitsView()
+        }
+        .task {
+            await HealthKitHabitSync.sync(habits: activeHabits, on: .now, in: modelContext)
+            try? modelContext.save()
         }
     }
 
@@ -215,29 +225,75 @@ struct TodayView: View {
 
             Spacer(minLength: 0)
 
-            if !dueHabits.isEmpty {
-                Button(isEditing ? "Done" : "Edit") {
-                    withAnimation(.snappy) {
-                        isEditing.toggle()
+            Menu {
+                Button("Archived habits", systemImage: "archivebox") {
+                    isPresentingArchive = true
+                }
+                if !dueHabits.isEmpty {
+                    Button(isEditing ? "Done reordering" : "Reorder", systemImage: "arrow.up.arrow.down") {
+                        withAnimation(.snappy) { isEditing.toggle() }
                     }
                 }
-                .font(.caption.monospaced().bold())
-                .foregroundStyle(isEditing ? LoopyTheme.coral : LoopyTheme.secondaryText)
-                .padding(.horizontal, 13)
-                .frame(minHeight: 34)
-                .background(LoopyTheme.chip, in: Capsule())
+            } label: {
+                Text(isEditing ? "Done" : "Edit")
+                    .font(.caption.monospaced().bold())
+                    .foregroundStyle(isEditing ? LoopyTheme.coral : LoopyTheme.secondaryText)
+                    .padding(.horizontal, 13)
+                    .frame(minHeight: 34)
+                    .background(LoopyTheme.chip, in: Capsule())
             }
+            .accessibilityLabel(isEditing ? "Done editing" : "Edit habits")
         }
         .padding(.horizontal, 4)
+    }
+
+    private var reorderableList: some View {
+        VStack(spacing: 10) {
+            ForEach(Array(dueHabits.enumerated()), id: \.element.id) { index, habit in
+                HStack(spacing: 10) {
+                    habitRow(for: habit)
+                    VStack(spacing: 8) {
+                        Button {
+                            moveDueHabit(at: index, by: -1)
+                        } label: {
+                            Image(systemName: "chevron.up")
+                                .frame(width: 44, height: 44)
+                        }
+                        .disabled(index == 0)
+                        .accessibilityLabel("Move \(habit.name) up")
+
+                        Button {
+                            moveDueHabit(at: index, by: 1)
+                        } label: {
+                            Image(systemName: "chevron.down")
+                                .frame(width: 44, height: 44)
+                        }
+                        .disabled(index >= dueHabits.count - 1)
+                        .accessibilityLabel("Move \(habit.name) down")
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(LoopyTheme.coral)
+                }
+            }
+            addHabitRow
+            Text("Use the arrows to change order. Order is saved automatically.")
+                .font(.caption)
+                .foregroundStyle(LoopyTheme.secondaryText)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 4)
+        }
     }
 
     @ViewBuilder
     private var emptyState: some View {
         ContentUnavailableView {
-            Label("No habits due", systemImage: "checkmark.seal")
+            Label(
+                activeHabits.isEmpty ? "Start your first loop" : "No habits due",
+                systemImage: activeHabits.isEmpty ? "sparkles" : "checkmark.seal"
+            )
         } description: {
             Text(activeHabits.isEmpty
-                 ? "Create your first habit to start a loop."
+                 ? "Create a habit to track today. You can archive and restore anytime."
                  : "Nothing is scheduled for today.")
         } actions: {
             Button("Add Habit") {
@@ -245,6 +301,12 @@ struct TodayView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(LoopyTheme.coral)
+
+            if !activeHabits.isEmpty {
+                Button("Archived habits") {
+                    isPresentingArchive = true
+                }
+            }
         }
         .frame(minHeight: 250)
     }
@@ -275,6 +337,8 @@ struct TodayView: View {
             }
             Button("Archive", systemImage: "archivebox", role: .destructive) {
                 habit.archivedAt = .now
+                HabitReminderScheduler.clear(habit: habit)
+                try? modelContext.save()
             }
         }
     }
@@ -314,38 +378,43 @@ struct TodayView: View {
         .accessibilityHint("Opens the new habit form")
     }
 
+    private func moveDueHabit(at index: Int, by offset: Int) {
+        let items = dueHabits
+        let destination = index + offset
+        guard items.indices.contains(index), items.indices.contains(destination) else { return }
+
+        var ordered = activeHabits
+        guard let fromGlobal = ordered.firstIndex(where: { $0.id == items[index].id }),
+              let toGlobal = ordered.firstIndex(where: { $0.id == items[destination].id }) else {
+            return
+        }
+        ordered.swapAt(fromGlobal, toGlobal)
+        for (sortIndex, habit) in ordered.enumerated() {
+            habit.sortOrder = sortIndex
+        }
+        try? modelContext.save()
+    }
+
     private func performPrimaryAction(for habit: Habit) {
         switch habit.trackingKind {
         case .binary:
-            toggleCompletion(for: habit)
+            HabitCheckInService.toggleBinary(for: habit, on: .now, in: modelContext)
+            try? modelContext.save()
         case .count:
             adjust(habit, by: 1)
         case .duration:
             timerHabit = habit
-        }
-    }
-
-    private func todayCheckIn(for habit: Habit) -> HabitCheckIn? {
-        let key = DayKey.make(for: .now)
-        return checkIns.first { $0.habitID == habit.id && $0.dayKey == key }
-    }
-
-    private func toggleCompletion(for habit: Habit) {
-        if let existing = todayCheckIn(for: habit) {
-            modelContext.delete(existing)
-        } else {
-            modelContext.insert(HabitCheckIn(habitID: habit.id, value: habit.safeTarget))
+        case .healthSteps, .healthActiveEnergy:
+            Task {
+                await HealthKitHabitSync.sync(habits: [habit], on: .now, in: modelContext)
+                try? modelContext.save()
+            }
         }
     }
 
     private func adjust(_ habit: Habit, by amount: Double) {
-        if let existing = todayCheckIn(for: habit) {
-            existing.value = max(0, existing.value + amount)
-            existing.timestamp = .now
-            if existing.value == 0 { modelContext.delete(existing) }
-        } else if amount > 0 {
-            modelContext.insert(HabitCheckIn(habitID: habit.id, value: amount))
-        }
+        HabitCheckInService.adjustCount(for: habit, by: amount, on: .now, in: modelContext)
+        try? modelContext.save()
     }
 }
 
@@ -415,6 +484,10 @@ private struct HabitRow: View {
             "\(value.formatted(.number.precision(.fractionLength(0)))) of \(habit.targetValue.formatted(.number.precision(.fractionLength(0)))) \(habit.unit)"
         case .duration:
             "\((habit.targetValue / 60).formatted(.number.precision(.fractionLength(0)))) min · timed"
+        case .healthSteps:
+            "\(Int(value)) / \(Int(habit.targetValue)) steps · Apple Health"
+        case .healthActiveEnergy:
+            "\(Int(value)) / \(Int(habit.targetValue)) kcal · Apple Health"
         }
     }
 
@@ -433,7 +506,7 @@ private struct HabitRow: View {
                     .font(.subheadline.monospacedDigit().bold())
                     .foregroundStyle(Color(hex: habit.colorHex))
             }
-        case .duration:
+        case .duration, .healthSteps, .healthActiveEnergy:
             if isComplete {
                 ZStack {
                     Circle().fill(LoopyTheme.green)
@@ -449,9 +522,17 @@ private struct HabitRow: View {
                     trackColor: LoopyTheme.progressTrack,
                     progressColor: Color(hex: habit.colorHex)
                 ) {
-                    Text(durationString(value))
-                        .font(.caption2.monospacedDigit().bold())
-                        .foregroundStyle(Color(hex: habit.colorHex))
+                    Group {
+                        if habit.trackingKind == .duration {
+                            Text(durationString(value))
+                                .font(.caption2.monospacedDigit().bold())
+                                .foregroundStyle(Color(hex: habit.colorHex))
+                        } else {
+                            Image(systemName: habit.trackingKind.systemImage)
+                                .font(.caption.bold())
+                                .foregroundStyle(Color(hex: habit.colorHex))
+                        }
+                    }
                 }
                 .frame(width: 48, height: 48)
             }
@@ -479,6 +560,9 @@ private struct HabitRow: View {
         if habit.trackingKind == .duration {
             return "\(durationString(value)) recorded; \(isComplete ? "complete" : "incomplete")"
         }
+        if habit.trackingKind.isHealthBacked {
+            return "\(Int(value)) of \(Int(habit.targetValue)); \(isComplete ? "complete" : "incomplete")"
+        }
         return isComplete ? "Complete" : "Incomplete"
     }
 
@@ -487,6 +571,7 @@ private struct HabitRow: View {
         case .binary: "Double tap to toggle completion"
         case .count: "Double tap to add one"
         case .duration: "Double tap to open the timer"
+        case .healthSteps, .healthActiveEnergy: "Double tap to refresh from Apple Health"
         }
     }
 
@@ -557,7 +642,7 @@ private struct SegmentedProgress: View {
     }
 }
 
-private struct TimerSessionView: View {
+struct TimerSessionView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query private var checkIns: [HabitCheckIn]
@@ -613,14 +698,16 @@ private struct TimerSessionView: View {
 
                 if !isRunning && recordedSeconds < habit.targetValue {
                     Button("Mark target complete") {
-                        setTodayValue(habit.targetValue)
+                        HabitCheckInService.setValue(habit.targetValue, for: habit, on: .now, in: modelContext)
+                        try? modelContext.save()
                         dismiss()
                     }
                 }
 
                 if recordedSeconds > 0 && !isRunning {
                     Button("Reset today", role: .destructive) {
-                        setTodayValue(0)
+                        HabitCheckInService.setValue(0, for: habit, on: .now, in: modelContext)
+                        try? modelContext.save()
                     }
                 }
 
@@ -651,23 +738,10 @@ private struct TimerSessionView: View {
 
     private func stopTimer() {
         let elapsed = elapsedSeconds(at: .now)
-        setTodayValue(recordedSeconds + elapsed)
+        HabitCheckInService.setValue(recordedSeconds + elapsed, for: habit, on: .now, in: modelContext)
+        try? modelContext.save()
         activeHabitID = ""
         activeStartedAt = 0
-    }
-
-    private func setTodayValue(_ value: Double) {
-        let key = DayKey.make(for: .now)
-        if let existing = checkIns.first(where: { $0.habitID == habit.id && $0.dayKey == key }) {
-            if value <= 0 {
-                modelContext.delete(existing)
-            } else {
-                existing.value = value
-                existing.timestamp = .now
-            }
-        } else if value > 0 {
-            modelContext.insert(HabitCheckIn(habitID: habit.id, value: value))
-        }
     }
 
     private func durationString(_ seconds: Double) -> String {

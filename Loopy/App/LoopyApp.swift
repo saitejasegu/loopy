@@ -3,11 +3,25 @@ import SwiftUI
 
 @main
 struct LoopyApp: App {
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
+    private let container: ModelContainer
+
+    init() {
+        container = LoopyPersistence.makeContainer(cloudKitEnabled: true)
+    }
+
     var body: some Scene {
         WindowGroup {
             RootTabView()
+                .fullScreenCover(isPresented: Binding(
+                    get: { !hasCompletedOnboarding },
+                    set: { if !$0 { hasCompletedOnboarding = true } }
+                )) {
+                    OnboardingView()
+                }
         }
-        .modelContainer(for: [Habit.self, HabitCheckIn.self])
+        .modelContainer(container)
     }
 }
 
@@ -36,6 +50,8 @@ enum AppearancePreference: String, CaseIterable, Identifiable {
 }
 
 struct RootTabView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Habit.sortOrder) private var habits: [Habit]
     @State private var selection: AppTab = .today
     @AppStorage("appearance") private var appearanceRaw = AppearancePreference.system.rawValue
 
@@ -71,5 +87,10 @@ struct RootTabView: View {
         }
         .tint(LoopyTheme.coral)
         .preferredColorScheme(appearance.colorScheme)
+        .task {
+            await HabitReminderScheduler.reschedule(habits: habits.filter { $0.archivedAt == nil })
+            await HealthKitHabitSync.sync(habits: habits, on: .now, in: modelContext)
+            try? modelContext.save()
+        }
     }
 }

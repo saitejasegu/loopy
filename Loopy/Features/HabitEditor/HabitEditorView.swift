@@ -13,6 +13,9 @@ struct HabitEditorView: View {
     @State private var unit: String
     @State private var colorHex: String
     @State private var schedule: HabitSchedule
+    @State private var reminderEnabled: Bool
+    @State private var reminderTime: Date
+    @State private var isRequestingHealth = false
 
     private let colors = ["#33A06C", "#2F7FE0", "#8659E6", "#E0512F", "#C78300"]
 
@@ -20,10 +23,21 @@ struct HabitEditorView: View {
         self.habit = habit
         _name = State(initialValue: habit?.name ?? "")
         _kind = State(initialValue: habit?.trackingKind ?? .binary)
-        _target = State(initialValue: habit.map { $0.trackingKind == .duration ? $0.targetValue / 60 : $0.targetValue } ?? 1)
+        _target = State(initialValue: habit.map {
+            switch $0.trackingKind {
+            case .duration: $0.targetValue / 60
+            case .binary, .count, .healthSteps, .healthActiveEnergy: $0.targetValue
+            }
+        } ?? 1)
         _unit = State(initialValue: habit?.unit ?? "times")
         _colorHex = State(initialValue: habit?.colorHex ?? "#33A06C")
         _schedule = State(initialValue: HabitSchedule(mask: habit?.weekdaysMask ?? HabitSchedule.everyDayMask))
+        _reminderEnabled = State(initialValue: habit?.reminderEnabled ?? false)
+        let hour = habit?.reminderHour ?? 9
+        let minute = habit?.reminderMinute ?? 0
+        _reminderTime = State(
+            initialValue: Calendar.current.date(from: DateComponents(hour: hour, minute: minute)) ?? .now
+        )
     }
 
     var body: some View {
@@ -34,11 +48,23 @@ struct HabitEditorView: View {
                         .textInputAutocapitalization(.sentences)
 
                     Picker("Tracking", selection: $kind) {
-                        ForEach(HabitTrackingKind.allCases) { kind in
+                        ForEach(HabitTrackingKind.manualCases) { kind in
+                            Label(kind.title, systemImage: kind.systemImage).tag(kind)
+                        }
+                        ForEach(HabitTrackingKind.healthCases) { kind in
                             Label(kind.title, systemImage: kind.systemImage).tag(kind)
                         }
                     }
                     .pickerStyle(.navigationLink)
+                    .onChange(of: kind) { _, newKind in
+                        applyDefaults(for: newKind)
+                    }
+
+                    if kind.isHealthBacked {
+                        Text("Progress syncs from Apple Health into dated check-ins. No manual check-in needed.")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
 
                 if kind != .binary {
@@ -46,7 +72,7 @@ struct HabitEditorView: View {
                         HStack {
                             TextField("Target", value: $target, format: .number)
                                 .keyboardType(.decimalPad)
-                            Text(kind == .duration ? "minutes" : unit)
+                            Text(unitLabel)
                                 .foregroundStyle(.secondary)
                         }
 
@@ -80,6 +106,13 @@ struct HabitEditorView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                Section("Reminder") {
+                    Toggle("Remind me", isOn: $reminderEnabled)
+                    if reminderEnabled {
+                        DatePicker("Time", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                    }
+                }
+
                 Section("Accent") {
                     HStack(spacing: 18) {
                         ForEach(colors, id: \.self) { hex in
@@ -108,6 +141,9 @@ struct HabitEditorView: View {
                     Section {
                         Button("Archive Habit", systemImage: "archivebox", role: .destructive) {
                             habit?.archivedAt = .now
+                            if let habit {
+                                HabitReminderScheduler.clear(habit: habit)
+                            }
                             dismiss()
                         }
                     }
@@ -120,12 +156,23 @@ struct HabitEditorView: View {
                     Button("Cancel") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }
-                        .disabled(!canSave)
+                    Button("Save") {
+                        Task { await save() }
+                    }
+                    .disabled(!canSave || isRequestingHealth)
                 }
             }
         }
         .tint(LoopyTheme.coral)
+    }
+
+    private var unitLabel: String {
+        switch kind {
+        case .duration: "minutes"
+        case .healthSteps: "steps"
+        case .healthActiveEnergy: "kcal"
+        default: unit
+        }
     }
 
     private var canSave: Bool {
@@ -134,17 +181,69 @@ struct HabitEditorView: View {
             && (kind == .binary || target > 0)
     }
 
-    private func save() {
-        let persistedTarget = kind == .duration ? target * 60 : (kind == .binary ? 1 : target)
-        let persistedUnit = kind == .duration ? "seconds" : unit.trimmingCharacters(in: .whitespacesAndNewlines)
+    private func applyDefaults(for kind: HabitTrackingKind) {
+        switch kind {
+        case .binary:
+            target = 1
+            unit = "times"
+        case .count:
+            if unit == "seconds" || unit == "steps" || unit == "kcal" { unit = "times" }
+            if target <= 1 { target = 8 }
+        case .duration:
+            target = 10
+            unit = "minutes"
+        case .healthSteps:
+            target = HealthKitMetric.steps.defaultTarget
+            unit = HealthKitMetric.steps.defaultUnit
+        case .healthActiveEnergy:
+            target = HealthKitMetric.activeEnergy.defaultTarget
+            unit = HealthKitMetric.activeEnergy.defaultUnit
+        }
+    }
+
+    @MainActor
+    private func save() async {
+        if kind.isHealthBacked {
+            isRequestingHealth = true
+            _ = await HealthKitHabitSync.requestAuthorization()
+            isRequestingHealth = false
+        }
+
+        let components = Calendar.current.dateComponents([.hour, .minute], from: reminderTime)
+        let hour = components.hour ?? 9
+        let minute = components.minute ?? 0
+
+        let persistedTarget: Double
+        let persistedUnit: String
+        switch kind {
+        case .duration:
+            persistedTarget = target * 60
+            persistedUnit = "seconds"
+        case .binary:
+            persistedTarget = 1
+            persistedUnit = "times"
+        case .healthSteps:
+            persistedTarget = target
+            persistedUnit = HealthKitMetric.steps.defaultUnit
+        case .healthActiveEnergy:
+            persistedTarget = target
+            persistedUnit = HealthKitMetric.activeEnergy.defaultUnit
+        case .count:
+            persistedTarget = target
+            let trimmed = unit.trimmingCharacters(in: .whitespacesAndNewlines)
+            persistedUnit = trimmed.isEmpty ? "times" : trimmed
+        }
 
         if let habit {
             habit.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
             habit.trackingKind = kind
             habit.targetValue = persistedTarget
-            habit.unit = persistedUnit.isEmpty ? "times" : persistedUnit
+            habit.unit = persistedUnit
             habit.colorHex = colorHex
             habit.weekdaysMask = schedule.mask
+            habit.reminderEnabled = reminderEnabled
+            habit.reminderHour = hour
+            habit.reminderMinute = minute
         } else {
             let descriptor = FetchDescriptor<Habit>()
             let nextOrder = ((try? modelContext.fetchCount(descriptor)) ?? 0)
@@ -152,11 +251,22 @@ struct HabitEditorView: View {
                 name: name.trimmingCharacters(in: .whitespacesAndNewlines),
                 trackingKind: kind,
                 targetValue: persistedTarget,
-                unit: persistedUnit.isEmpty ? "times" : persistedUnit,
+                unit: persistedUnit,
                 colorHex: colorHex,
                 weekdaysMask: schedule.mask,
-                sortOrder: nextOrder
+                sortOrder: nextOrder,
+                reminderEnabled: reminderEnabled,
+                reminderHour: hour,
+                reminderMinute: minute
             ))
+        }
+
+        try? modelContext.save()
+        let active = ((try? modelContext.fetch(FetchDescriptor<Habit>())) ?? []).filter { $0.archivedAt == nil }
+        await HabitReminderScheduler.reschedule(habits: active)
+        if kind.isHealthBacked {
+            await HealthKitHabitSync.sync(habits: active, on: .now, in: modelContext)
+            try? modelContext.save()
         }
         dismiss()
     }
