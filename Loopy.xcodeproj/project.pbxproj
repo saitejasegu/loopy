@@ -8,25 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		07D06BE827A96BF957BD63B2 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0504124265DFC6E84F28B6D1 /* TodayView.swift */; };
+		30F4C8E386109A5BAE42D5AD /* HabitCheckInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF006360B1C73850750C7E92 /* HabitCheckInService.swift */; };
 		41835FB6294073EFE706D575 /* HabitModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7410572FCA9BF8875286E196 /* HabitModels.swift */; };
+		45CF93A0F0611C3FFF4E388F /* HealthKitHabitSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */; };
+		6198CD0E8BF2BD70082B5F36 /* RemindersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33D463F3154CF012689918F /* RemindersSettingsView.swift */; };
 		69C56DA511B268196D102BFE /* HabitAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */; };
+		6B6ED8642E65CE2272C05DA2 /* LoopyPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE114E3FBEA869EC83F199ED /* LoopyPersistence.swift */; };
 		AA0F11C942E2EF185F87E139 /* HabitAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */; };
 		B82D24B89606FAD05D7C7B97 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6B7E925055C0014A8D409B /* StatsView.swift */; };
 		BCA35E3D21077C1F9E67ABE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */; };
 		BF0CF5ACFC6CB7CA3F9D819B /* LoopyTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */; };
+		C59A1BD249005CD3821D79DC /* ArchivedHabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */; };
 		D272045B7459BC89D3093778 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C03D6E07B35E791114171 /* HistoryView.swift */; };
+		D27B727957CC11FB517D3513 /* AchievementCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398BF43C98925E70383BC874 /* AchievementCatalog.swift */; };
+		D6A445C88D1679175D3B6E9F /* HabitReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */; };
+		DE6E459659ADF25B1A58282D /* OpenTodayIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */; };
 		E53046EB08CBBCD63E8243B7 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */; };
 		EFA31FF2D24C2253E9DF01B6 /* LoopyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09385EE3D87741D35ECEB75E /* LoopyApp.swift */; };
-		FAF0DC2AB088EF3F3B730E40 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F53503EB6D3E63361883A0 /* ProfileView.swift */; };
-		30F4C8E386109A5BAE42D5AD /* HabitCheckInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF006360B1C73850750C7E92 /* HabitCheckInService.swift */; };
-		D6A445C88D1679175D3B6E9F /* HabitReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */; };
-		D27B727957CC11FB517D3513 /* AchievementCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398BF43C98925E70383BC874 /* AchievementCatalog.swift */; };
-		45CF93A0F0611C3FFF4E388F /* HealthKitHabitSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */; };
-		6B6ED8642E65CE2272C05DA2 /* LoopyPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE114E3FBEA869EC83F199ED /* LoopyPersistence.swift */; };
-		C59A1BD249005CD3821D79DC /* ArchivedHabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */; };
 		F964E02D3D84C3F3045221E6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839351932C693999DF84192A /* OnboardingView.swift */; };
-		6198CD0E8BF2BD70082B5F36 /* RemindersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33D463F3154CF012689918F /* RemindersSettingsView.swift */; };
-		DE6E459659ADF25B1A58282D /* OpenTodayIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */; };
+		FAF0DC2AB088EF3F3B730E40 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F53503EB6D3E63361883A0 /* ProfileView.swift */; };
 		FD4F040EE041865BE61F7739 /* LoopyAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */; };
 /* End PBXBuildFile section */
 
@@ -41,30 +41,30 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00319E25284F8E77D6B42FCA /* Loopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Loopy.entitlements; sourceTree = "<group>"; };
 		01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitAnalyticsTests.swift; sourceTree = "<group>"; };
 		0504124265DFC6E84F28B6D1 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		09385EE3D87741D35ECEB75E /* LoopyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyApp.swift; sourceTree = "<group>"; };
 		1A7C03D6E07B35E791114171 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedHabitsView.swift; sourceTree = "<group>"; };
 		3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
+		398BF43C98925E70383BC874 /* AchievementCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementCatalog.swift; sourceTree = "<group>"; };
 		46F53503EB6D3E63361883A0 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHabitSync.swift; sourceTree = "<group>"; };
 		6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyTheme.swift; sourceTree = "<group>"; };
+		73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitReminderScheduler.swift; sourceTree = "<group>"; };
 		7410572FCA9BF8875286E196 /* HabitModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitModels.swift; sourceTree = "<group>"; };
 		838366364D55B691EF7C6A83 /* Loopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		839351932C693999DF84192A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		91AE450DED8FD4F4FCFF8A16 /* LoopyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LoopyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTodayIntent.swift; sourceTree = "<group>"; };
+		C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyAppIntents.swift; sourceTree = "<group>"; };
+		D33D463F3154CF012689918F /* RemindersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSettingsView.swift; sourceTree = "<group>"; };
 		DE6B7E925055C0014A8D409B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitAnalytics.swift; sourceTree = "<group>"; };
 		EF006360B1C73850750C7E92 /* HabitCheckInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCheckInService.swift; sourceTree = "<group>"; };
-		73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitReminderScheduler.swift; sourceTree = "<group>"; };
-		398BF43C98925E70383BC874 /* AchievementCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementCatalog.swift; sourceTree = "<group>"; };
-		6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHabitSync.swift; sourceTree = "<group>"; };
 		FE114E3FBEA869EC83F199ED /* LoopyPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyPersistence.swift; sourceTree = "<group>"; };
-		28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedHabitsView.swift; sourceTree = "<group>"; };
-		839351932C693999DF84192A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		D33D463F3154CF012689918F /* RemindersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSettingsView.swift; sourceTree = "<group>"; };
-		A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTodayIntent.swift; sourceTree = "<group>"; };
-		C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyAppIntents.swift; sourceTree = "<group>"; };
-		00319E25284F8E77D6B42FCA /* Loopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Loopy.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -122,6 +122,14 @@
 			path = LoopyTests;
 			sourceTree = "<group>";
 		};
+		65A7C41B94B81E434247B854 /* Reminders */ = {
+			isa = PBXGroup;
+			children = (
+				D33D463F3154CF012689918F /* RemindersSettingsView.swift */,
+			);
+			path = Reminders;
+			sourceTree = "<group>";
+		};
 		71F1EEA8F8147E7BBAF7DF23 /* Loopy */ = {
 			isa = PBXGroup;
 			children = (
@@ -133,6 +141,14 @@
 				D3301267784C1E8ABED9E7DF /* Resources */,
 			);
 			path = Loopy;
+			sourceTree = "<group>";
+		};
+		92424288C947FD610ECE13D1 /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */,
+			);
+			path = Archive;
 			sourceTree = "<group>";
 		};
 		A11D25664A03756B88B2CC56 /* Core */ = {
@@ -166,6 +182,14 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
+		C3170A6937369DA86ACEBD3B /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				839351932C693999DF84192A /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		C63063CB1889D0CE0321E355 = {
 			isa = PBXGroup;
 			children = (
@@ -193,39 +217,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		FDE7A48E75790A3DB1ECD87A /* History */ = {
-			isa = PBXGroup;
-			children = (
-				1A7C03D6E07B35E791114171 /* HistoryView.swift */,
-			);
-			path = History;
-			sourceTree = "<group>";
-		};
-
-		92424288C947FD610ECE13D1 /* Archive */ = {
-			isa = PBXGroup;
-			children = (
-				28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */,
-			);
-			path = Archive;
-			sourceTree = "<group>";
-		};
-		C3170A6937369DA86ACEBD3B /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				839351932C693999DF84192A /* OnboardingView.swift */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		65A7C41B94B81E434247B854 /* Reminders */ = {
-			isa = PBXGroup;
-			children = (
-				D33D463F3154CF012689918F /* RemindersSettingsView.swift */,
-			);
-			path = Reminders;
-			sourceTree = "<group>";
-		};
 		EBCCA996553CC6370DA02F12 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +224,14 @@
 				C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */,
 			);
 			path = Intents;
+			sourceTree = "<group>";
+		};
+		FDE7A48E75790A3DB1ECD87A /* History */ = {
+			isa = PBXGroup;
+			children = (
+				1A7C03D6E07B35E791114171 /* HistoryView.swift */,
+			);
+			path = History;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -435,16 +434,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Loopy/Resources/Loopy.entitlements;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Loopy reads step count and active energy from Apple Health to update Health-backed habits.";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Loopy does not write workout data to Apple Health; it only reads activity summaries for habit progress.";
-				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Loopy sends optional reminders when it is time to complete a habit.";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Loopy/Resources/Loopy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = AAP9J3XJDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Loopy reads step count and active energy from Apple Health to update Health-backed habits.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Loopy does not write workout data to Apple Health; it only reads activity summaries for habit progress.";
+				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Loopy sends optional reminders when it is time to complete a habit.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -549,15 +548,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Loopy/Resources/Loopy.entitlements;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Loopy reads step count and active energy from Apple Health to update Health-backed habits.";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Loopy does not write workout data to Apple Health; it only reads activity summaries for habit progress.";
-				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Loopy sends optional reminders when it is time to complete a habit.";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Loopy/Resources/Loopy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = AAP9J3XJDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Loopy reads step count and active energy from Apple Health to update Health-backed habits.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Loopy does not write workout data to Apple Health; it only reads activity summaries for habit progress.";
+				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "Loopy sends optional reminders when it is time to complete a habit.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;

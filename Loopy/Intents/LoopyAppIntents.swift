@@ -3,8 +3,8 @@ import SwiftData
 import WidgetKit
 
 struct LoopyHabitEntity: AppEntity, Identifiable {
-    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Habit"
-    static var defaultQuery = LoopyHabitEntityQuery()
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Habit"
+    static let defaultQuery = LoopyHabitEntityQuery()
 
     var id: UUID
     var name: String
@@ -45,8 +45,8 @@ struct LoopyHabitEntityQuery: EntityQuery {
 }
 
 struct CompleteHabitIntent: AppIntent {
-    static var title: LocalizedStringResource = "Complete Habit"
-    static var description = IntentDescription("Marks a yes/no habit complete for today, or adds one to a count habit.")
+    static let title: LocalizedStringResource = "Complete Habit"
+    static let description = IntentDescription("Marks a yes/no habit complete for today, or adds one to a count habit.")
 
     @Parameter(title: "Habit")
     var habit: LoopyHabitEntity

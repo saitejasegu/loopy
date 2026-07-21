@@ -19,6 +19,7 @@ enum HabitReminderScheduler {
         await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
     }
 
+    @MainActor
     static func reschedule(habits: [Habit]) async {
         let center = UNUserNotificationCenter.current()
         let identifiers = habits.map(requestIdentifier(for:))
@@ -32,6 +33,7 @@ enum HabitReminderScheduler {
         }
     }
 
+    @MainActor
     static func clear(habit: Habit) {
         UNUserNotificationCenter.current()
             .removePendingNotificationRequests(withIdentifiers: [requestIdentifier(for: habit)])
@@ -47,6 +49,7 @@ enum HabitReminderScheduler {
         "habit-reminder-\(habit.id.uuidString)"
     }
 
+    @MainActor
     private static func schedule(habit: Habit, center: UNUserNotificationCenter) async {
         var dateComponents = DateComponents()
         dateComponents.hour = habit.reminderHour
