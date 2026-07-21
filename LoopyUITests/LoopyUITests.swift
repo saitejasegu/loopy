@@ -52,8 +52,9 @@ final class LoopyUITests: XCTestCase {
         }
 
         XCTAssertTrue(
-            app.navigationBars["New Habit"].waitForExistence(timeout: 5)
+            app.staticTexts["New habit"].waitForExistence(timeout: 5)
                 || app.textFields["Name"].waitForExistence(timeout: 5)
+                || app.textFields["e.g. Stretch"].waitForExistence(timeout: 5)
         )
         app.buttons["Cancel"].tap()
     }
