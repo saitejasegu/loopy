@@ -267,6 +267,7 @@ private struct DayCell: View {
 
 private struct DayDetailView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
     let date: Date
     let habits: [Habit]
     let checkIns: [HabitCheckIn]
@@ -282,19 +283,7 @@ private struct DayDetailView: View {
     var body: some View {
         NavigationStack {
             List(dueHabits) { habit in
-                HStack {
-                    Label(habit.name, systemImage: habit.trackingKind.systemImage)
-                    Spacer()
-                    if HabitAnalytics.isComplete(habit, on: date, checkIns: checkIns) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(LoopyTheme.green)
-                            .accessibilityLabel("Complete")
-                    } else {
-                        Image(systemName: "circle")
-                            .foregroundStyle(.secondary)
-                            .accessibilityLabel("Incomplete")
-                    }
-                }
+                DayDetailHabitRow(habit: habit, date: date, checkIns: checkIns)
             }
             .overlay {
                 if dueHabits.isEmpty {
@@ -310,5 +299,99 @@ private struct DayDetailView: View {
             }
         }
         .tint(LoopyTheme.coral)
+    }
+}
+
+private struct DayDetailHabitRow: View {
+    @Environment(\.modelContext) private var modelContext
+    let habit: Habit
+    let date: Date
+    let checkIns: [HabitCheckIn]
+
+    private var value: Double {
+        HabitAnalytics.value(for: habit, on: date, checkIns: checkIns)
+    }
+
+    private var isComplete: Bool {
+        HabitAnalytics.isComplete(habit, on: date, checkIns: checkIns)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack {
+                Label(habit.name, systemImage: habit.trackingKind.systemImage)
+                Spacer()
+                Image(systemName: isComplete ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(isComplete ? LoopyTheme.green : .secondary)
+                    .accessibilityLabel(isComplete ? "Complete" : "Incomplete")
+            }
+
+            switch habit.trackingKind {
+            case .binary:
+                Button(isComplete ? "Mark incomplete" : "Mark complete") {
+                    HabitCheckInService.toggleBinary(for: habit, on: date, in: modelContext)
+                    try? modelContext.save()
+                }
+            case .count:
+                HStack {
+                    Text("\(Int(value)) / \(Int(habit.targetValue)) \(habit.unit)")
+                        .font(.subheadline.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button {
+                        HabitCheckInService.adjustCount(for: habit, by: -1, on: date, in: modelContext)
+                        try? modelContext.save()
+                    } label: {
+                        Image(systemName: "minus.circle.fill")
+                            .font(.title2)
+                    }
+                    .disabled(value <= 0)
+                    .accessibilityLabel("Decrease")
+
+                    Button {
+                        HabitCheckInService.adjustCount(for: habit, by: 1, on: date, in: modelContext)
+                        try? modelContext.save()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
+                    }
+                    .accessibilityLabel("Increase")
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(LoopyTheme.coral)
+            case .duration:
+                HStack {
+                    Text(durationLabel)
+                        .font(.subheadline.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    Button("Set complete") {
+                        HabitCheckInService.setValue(habit.safeTarget, for: habit, on: date, in: modelContext)
+                        try? modelContext.save()
+                    }
+                    Button("Clear", role: .destructive) {
+                        HabitCheckInService.setValue(0, for: habit, on: date, in: modelContext)
+                        try? modelContext.save()
+                    }
+                }
+            case .healthSteps, .healthActiveEnergy:
+                Text("Synced from Apple Health · \(Int(value)) / \(Int(habit.targetValue)) \(habit.unit)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Button("Refresh from Health") {
+                    Task {
+                        await HealthKitHabitSync.sync(habits: [habit], on: date, in: modelContext)
+                        try? modelContext.save()
+                    }
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
+
+    private var durationLabel: String {
+        let total = max(0, Int(value.rounded(.down)))
+        let target = max(0, Int(habit.targetValue.rounded(.down)))
+        return String(format: "%d:%02d / %d:%02d", total / 60, total % 60, target / 60, target % 60)
     }
 }

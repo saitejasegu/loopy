@@ -5,18 +5,23 @@ Loopy is a native iPhone habit tracker for building consistent daily routines. I
 ## Current features
 
 - Native four-tab navigation for Today, Stats, History, and Profile
-- Binary, countable, and timed habits
+- Binary, countable, timed, and Apple Health habits (steps + active energy)
 - Daily and selected-weekday recurrence
 - Persistent timer sessions and dated check-ins
-- Habit creation, editing, archiving, increments, and resets
+- Habit creation, editing, archiving/restore, reordering, increments, and resets
+- Historical check-in edits from the day-detail screen
+- Local reminders with notification permission handling
+- Achievements derived from real streak / perfect-day progress
 - Current streak and perfect-day calculations
 - 30-day and one-year Swift Charts views
 - Monthly completion calendar with day details
+- First-launch onboarding
 - System, light, and dark appearance settings
+- App Intents / Shortcuts check-ins
+- Home Screen and Lock Screen widgets (App Group shared store)
+- Private iCloud / CloudKit sync when the account is available
 - Local-first SwiftData persistence
 - VoiceOver labels and Dynamic Type-compatible layouts
-
-HealthKit, reminders, iCloud sync, widgets, and achievements are planned but are not part of the current build.
 
 ## Technology
 
@@ -24,7 +29,11 @@ HealthKit, reminders, iCloud sync, widgets, and achievements are planned but are
 - SwiftUI
 - SwiftData
 - Swift Charts
-- Swift Testing
+- WidgetKit
+- App Intents
+- HealthKit
+- UserNotifications
+- Swift Testing + XCTest UI tests
 - XcodeGen
 
 ## Requirements
@@ -32,10 +41,11 @@ HealthKit, reminders, iCloud sync, widgets, and achievements are planned but are
 - Xcode 26 or newer
 - iOS 17 or newer
 - XcodeGen (`brew install xcodegen`)
+- Apple Developer capabilities for App Groups, HealthKit, and iCloud (CloudKit) when signing for device
 
 ## Getting started
 
-Generate the Xcode project from `project.yml`:
+Generate the Xcode project from `project.yml` (required after pulling — widget and UI test targets live here):
 
 ```sh
 xcodegen generate
@@ -47,8 +57,6 @@ Choose an iPhone simulator or a signing-enabled physical device and run the `Loo
 `project.yml` is the source of truth for project configuration. Regenerate the project after adding source files, resources, targets, or build settings instead of editing `project.pbxproj` manually.
 
 ## Command-line build
-
-The explicit Xcode path works even when `xcode-select` points to Command Line Tools:
 
 ```sh
 /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild \
@@ -62,8 +70,6 @@ The explicit Xcode path works even when `xcode-select` points to Command Line To
 
 ## Tests
 
-Run the unit tests on an available simulator:
-
 ```sh
 /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild \
   -project Loopy.xcodeproj \
@@ -73,57 +79,45 @@ Run the unit tests on an available simulator:
   test
 ```
 
-The current suite covers recurrence selection, count-target completion, and perfect-day analytics.
+Unit tests cover recurrence, count/duration progress, perfect days, streak rules (including incomplete today and empty due days), archive windows, DayKey calendars, and achievements. UI tests cover launch and opening the new-habit sheet.
 
 ## Project structure
 
 ```text
 Loopy/
-├── App/                 App entry point and native tab navigation
+├── App/                 App entry, tabs, model container
 ├── Core/                Theme tokens and reusable view styling
-├── Data/                SwiftData models, recurrence, and analytics
+├── Data/                Models, analytics, check-in service, reminders, HealthKit, persistence
 ├── Features/
+│   ├── Archive/         Archived habits manager
 │   ├── HabitEditor/     Create and edit form
-│   ├── History/         Calendar and day details
-│   ├── Profile/         Name, appearance, and summary
+│   ├── History/         Calendar and editable day details
+│   ├── Onboarding/      First-launch guidance
+│   ├── Profile/         Name, achievements, appearance, sync
+│   ├── Reminders/       Per-habit notification settings
 │   ├── Stats/           Completion metrics and charts
-│   └── Today/           Daily dashboard, check-ins, and timer
-└── Resources/           Asset catalog
+│   └── Today/           Daily dashboard, check-ins, timer, reorder
+├── Intents/             App Intents / Shortcuts
+└── Resources/           Asset catalog + entitlements
 
+LoopyWidget/             WidgetKit extension
 LoopyTests/              Swift Testing unit tests
+LoopyUITests/            XCTest UI tests
+docs/                    Privacy, accessibility, App Store drafts
 design/                  Original interactive HTML reference
 project.yml              XcodeGen project definition
 ```
 
 ## Core behavior
 
-Tracking type and recurrence are modeled independently, allowing any habit to run daily or only on selected weekdays. Progress is stored as dated check-ins so edits to today's state never erase history. Archived habits retain their historical contribution.
+Tracking type and recurrence are modeled independently, allowing any habit to run daily or only on selected weekdays. Progress is stored as dated check-ins so edits to today's state never erase history. Archived habits retain their historical contribution. Health-backed habits sync quantities into the same check-in store.
 
 A streak counts consecutive perfect scheduled days. Days with no due habits are skipped, and an incomplete current day does not break the streak before the day ends.
 
-## TODO
+## Docs
 
-### Next
-
-- [ ] Add habit reordering and an archived-habits manager
-- [ ] Allow historical check-ins to be corrected from the day-detail screen
-- [ ] Add reminder scheduling with local notifications
-- [ ] Add onboarding and first-habit guidance
-- [ ] Expand tests for streak boundaries, time-zone changes, timers, and SwiftData migrations
-
-### Integrations
-
-- [ ] Add HealthKit-backed habits, beginning with steps and active energy
-- [ ] Add private iCloud synchronization with SwiftData and CloudKit
-- [ ] Add Home Screen and Lock Screen widgets
-- [ ] Add App Intents for Shortcuts and Siri check-ins
-
-### Release readiness
-
-- [ ] Add the final app icon and launch assets
-- [ ] Complete accessibility and localization audits
-- [ ] Add UI tests for the primary create, check-in, edit, and archive flows
-- [ ] Add privacy policy and App Store privacy disclosures
-- [ ] Prepare App Store screenshots and metadata
+- [`docs/PRIVACY.md`](docs/PRIVACY.md) — privacy policy draft
+- [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) — a11y checklist
+- [`docs/APP_STORE.md`](docs/APP_STORE.md) — store listing draft
 
 See [`AGENTS.md`](AGENTS.md) for repository-specific implementation conventions.
