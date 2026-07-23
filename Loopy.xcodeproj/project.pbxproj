@@ -7,31 +7,56 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0013EF955FF84FE5882F2472 /* LoopyPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095E09EF24960500D3CE7E93 /* LoopyPersistence.swift */; };
+		0471C9F3528E7FE8FBBE70F1 /* HealthKitHabitSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1889DB536483652B9DAD51C4 /* HealthKitHabitSync.swift */; };
+		066086FB9FFD28B7047C2710 /* HabitReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2379EA37A1079C6C3BC9B94D /* HabitReminderScheduler.swift */; };
 		07D06BE827A96BF957BD63B2 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0504124265DFC6E84F28B6D1 /* TodayView.swift */; };
-		30F4C8E386109A5BAE42D5AD /* HabitCheckInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF006360B1C73850750C7E92 /* HabitCheckInService.swift */; };
+		0CB570CD9830B0FD041E9181 /* LoopyPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 095E09EF24960500D3CE7E93 /* LoopyPersistence.swift */; };
+		12EA886E8BF1ADB4A81CD9CB /* LoopyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33F8A593D8B18D4527C3646 /* LoopyUITests.swift */; };
+		2AD27C745ADDE0F2AF059349 /* LoopyTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */; };
+		32C58E79E87D4BB08CB891DE /* HabitCheckInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA23D3F39FA0FC8E8E4A40C /* HabitCheckInService.swift */; };
+		3BBFA868D9BC9ACF2D1278D1 /* RemindersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF88FAE902554ED47829003 /* RemindersSettingsView.swift */; };
+		3E109E9D03A433B2C9710ED4 /* ArchivedHabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D851A4635A95C1D5788E07 /* ArchivedHabitsView.swift */; };
+		3FC1BF04A6B85B351B9BA0A3 /* LoopyAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DC7A7657D47F1EFD445669 /* LoopyAppIntents.swift */; };
 		41835FB6294073EFE706D575 /* HabitModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7410572FCA9BF8875286E196 /* HabitModels.swift */; };
-		45CF93A0F0611C3FFF4E388F /* HealthKitHabitSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */; };
-		6198CD0E8BF2BD70082B5F36 /* RemindersSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33D463F3154CF012689918F /* RemindersSettingsView.swift */; };
+		48D0FA5A370D6093F790201A /* AchievementCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA1F122E33E17F3D96BAF /* AchievementCatalog.swift */; };
+		4C4F9FA340DC8CC1A9F8E67B /* LoopyWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406869617E93984A7F367335 /* LoopyWidgetBundle.swift */; };
 		69C56DA511B268196D102BFE /* HabitAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */; };
-		6B6ED8642E65CE2272C05DA2 /* LoopyPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE114E3FBEA869EC83F199ED /* LoopyPersistence.swift */; };
+		6CB9407AF6CE5027952E7D5D /* OpenTodayIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA873BF598B0F7FC8D44492 /* OpenTodayIntent.swift */; };
+		7813CD937E6EAD48E78E5E9D /* HabitCheckInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBA23D3F39FA0FC8E8E4A40C /* HabitCheckInService.swift */; };
+		80173B6290DA7C952B4D25ED /* HabitAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */; };
+		96C60DC3DA6511BBA1D34EE1 /* LoopyWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797BD586CA4CD5215E75562C /* LoopyWidget.swift */; };
+		9C13FDC6CBCD52CDBA9627C2 /* OpenTodayIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA873BF598B0F7FC8D44492 /* OpenTodayIntent.swift */; };
+		A9F0507CFCA1AE48B788EAA8 /* HabitModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7410572FCA9BF8875286E196 /* HabitModels.swift */; };
 		AA0F11C942E2EF185F87E139 /* HabitAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */; };
 		B82D24B89606FAD05D7C7B97 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE6B7E925055C0014A8D409B /* StatsView.swift */; };
+		B86209A752FBF276BA2DF832 /* LoopyWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 87678F90CB78A7FBCC76B420 /* LoopyWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BCA35E3D21077C1F9E67ABE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */; };
 		BF0CF5ACFC6CB7CA3F9D819B /* LoopyTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */; };
-		C59A1BD249005CD3821D79DC /* ArchivedHabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */; };
+		C2F73270C9E0DB0B1D4335BE /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86725D794289BAD1A5CD8EE7 /* OnboardingView.swift */; };
+		C9A3F5C76C8AD6E7410E776D /* AchievementCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FFA1F122E33E17F3D96BAF /* AchievementCatalog.swift */; };
 		D272045B7459BC89D3093778 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7C03D6E07B35E791114171 /* HistoryView.swift */; };
-		D27B727957CC11FB517D3513 /* AchievementCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398BF43C98925E70383BC874 /* AchievementCatalog.swift */; };
-		D6A445C88D1679175D3B6E9F /* HabitReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */; };
-		DE6E459659ADF25B1A58282D /* OpenTodayIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */; };
 		E53046EB08CBBCD63E8243B7 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */; };
 		EFA31FF2D24C2253E9DF01B6 /* LoopyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09385EE3D87741D35ECEB75E /* LoopyApp.swift */; };
-		F964E02D3D84C3F3045221E6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839351932C693999DF84192A /* OnboardingView.swift */; };
 		FAF0DC2AB088EF3F3B730E40 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F53503EB6D3E63361883A0 /* ProfileView.swift */; };
-		FD4F040EE041865BE61F7739 /* LoopyAppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2F8E9F78CCBBA1C19D1569AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9034B2AF020DB78B3E66FD91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83DC0365A56AA218B0F9F75A;
+			remoteInfo = LoopyWidgetExtension;
+		};
 		4E4A94EFC3C626614DF4D4DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9034B2AF020DB78B3E66FD91 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0994D3BCD1C325E751EB63D4;
+			remoteInfo = Loopy;
+		};
+		8743AB7A7FAB80706E8602E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9034B2AF020DB78B3E66FD91 /* Project object */;
 			proxyType = 1;
@@ -40,31 +65,52 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D41257A88AAA7762680C4627 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B86209A752FBF276BA2DF832 /* LoopyWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		00319E25284F8E77D6B42FCA /* Loopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Loopy.entitlements; sourceTree = "<group>"; };
 		01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		023541FE4F349F37E1EF7E3D /* HabitAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitAnalyticsTests.swift; sourceTree = "<group>"; };
 		0504124265DFC6E84F28B6D1 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		09385EE3D87741D35ECEB75E /* LoopyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyApp.swift; sourceTree = "<group>"; };
+		095E09EF24960500D3CE7E93 /* LoopyPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyPersistence.swift; sourceTree = "<group>"; };
+		1889DB536483652B9DAD51C4 /* HealthKitHabitSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHabitSync.swift; sourceTree = "<group>"; };
 		1A7C03D6E07B35E791114171 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
-		28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedHabitsView.swift; sourceTree = "<group>"; };
+		2379EA37A1079C6C3BC9B94D /* HabitReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitReminderScheduler.swift; sourceTree = "<group>"; };
 		3857061DE316D7F9E6CA9DA3 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
-		398BF43C98925E70383BC874 /* AchievementCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementCatalog.swift; sourceTree = "<group>"; };
+		406869617E93984A7F367335 /* LoopyWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyWidgetBundle.swift; sourceTree = "<group>"; };
 		46F53503EB6D3E63361883A0 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHabitSync.swift; sourceTree = "<group>"; };
+		4C66BD08D2F7FCECBA6E1486 /* LoopyWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LoopyWidget.entitlements; sourceTree = "<group>"; };
 		6F91BDBA0E180FDB68C61FE6 /* LoopyTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyTheme.swift; sourceTree = "<group>"; };
-		73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitReminderScheduler.swift; sourceTree = "<group>"; };
+		70DC7A7657D47F1EFD445669 /* LoopyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyAppIntents.swift; sourceTree = "<group>"; };
 		7410572FCA9BF8875286E196 /* HabitModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitModels.swift; sourceTree = "<group>"; };
-		838366364D55B691EF7C6A83 /* Loopy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Loopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		839351932C693999DF84192A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		797BD586CA4CD5215E75562C /* LoopyWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyWidget.swift; sourceTree = "<group>"; };
+		838366364D55B691EF7C6A83 /* Loopy.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Loopy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		85D851A4635A95C1D5788E07 /* ArchivedHabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedHabitsView.swift; sourceTree = "<group>"; };
+		86725D794289BAD1A5CD8EE7 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		87678F90CB78A7FBCC76B420 /* LoopyWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LoopyWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		91AE450DED8FD4F4FCFF8A16 /* LoopyTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LoopyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTodayIntent.swift; sourceTree = "<group>"; };
-		C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyAppIntents.swift; sourceTree = "<group>"; };
-		D33D463F3154CF012689918F /* RemindersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSettingsView.swift; sourceTree = "<group>"; };
+		A58CAFEA027D2192A15B9FA2 /* LoopyUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LoopyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7FFA1F122E33E17F3D96BAF /* AchievementCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementCatalog.swift; sourceTree = "<group>"; };
+		C33F8A593D8B18D4527C3646 /* LoopyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyUITests.swift; sourceTree = "<group>"; };
+		CDA873BF598B0F7FC8D44492 /* OpenTodayIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTodayIntent.swift; sourceTree = "<group>"; };
+		DBA23D3F39FA0FC8E8E4A40C /* HabitCheckInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCheckInService.swift; sourceTree = "<group>"; };
 		DE6B7E925055C0014A8D409B /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		E293C445DB8D0BC73ACF929A /* Loopy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Loopy.entitlements; sourceTree = "<group>"; };
+		E3ACEA3F23B3FE69F5E8B5F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitAnalytics.swift; sourceTree = "<group>"; };
-		EF006360B1C73850750C7E92 /* HabitCheckInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCheckInService.swift; sourceTree = "<group>"; };
-		FE114E3FBEA869EC83F199ED /* LoopyPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopyPersistence.swift; sourceTree = "<group>"; };
+		EFF88FAE902554ED47829003 /* RemindersSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -76,12 +122,56 @@
 			path = HabitEditor;
 			sourceTree = "<group>";
 		};
+		0583B6D62AAC39D011821E91 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				86725D794289BAD1A5CD8EE7 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		0BBAA0672D106B8AA5F7B22D /* Archive */ = {
+			isa = PBXGroup;
+			children = (
+				85D851A4635A95C1D5788E07 /* ArchivedHabitsView.swift */,
+			);
+			path = Archive;
+			sourceTree = "<group>";
+		};
 		1501C8146F3F456351B50941 /* App */ = {
 			isa = PBXGroup;
 			children = (
 				09385EE3D87741D35ECEB75E /* LoopyApp.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		17750FED03A3879953D475E3 /* Reminders */ = {
+			isa = PBXGroup;
+			children = (
+				EFF88FAE902554ED47829003 /* RemindersSettingsView.swift */,
+			);
+			path = Reminders;
+			sourceTree = "<group>";
+		};
+		17CBD1D62CF80C16190B518D /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				70DC7A7657D47F1EFD445669 /* LoopyAppIntents.swift */,
+				CDA873BF598B0F7FC8D44492 /* OpenTodayIntent.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		308607BC00D548196839DA2A /* LoopyWidget */ = {
+			isa = PBXGroup;
+			children = (
+				E3ACEA3F23B3FE69F5E8B5F9 /* Info.plist */,
+				4C66BD08D2F7FCECBA6E1486 /* LoopyWidget.entitlements */,
+				797BD586CA4CD5215E75562C /* LoopyWidget.swift */,
+				406869617E93984A7F367335 /* LoopyWidgetBundle.swift */,
+			);
+			path = LoopyWidget;
 			sourceTree = "<group>";
 		};
 		3BE0CA885FA00BF720E33A5F /* Profile */ = {
@@ -95,13 +185,13 @@
 		44318293925E0BD0AA892CF1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				A7FFA1F122E33E17F3D96BAF /* AchievementCatalog.swift */,
 				EC10980E3B67A73C16C97176 /* HabitAnalytics.swift */,
+				DBA23D3F39FA0FC8E8E4A40C /* HabitCheckInService.swift */,
 				7410572FCA9BF8875286E196 /* HabitModels.swift */,
-				EF006360B1C73850750C7E92 /* HabitCheckInService.swift */,
-				73DCB324E658F06F050C0494 /* HabitReminderScheduler.swift */,
-				398BF43C98925E70383BC874 /* AchievementCatalog.swift */,
-				6B165F6735521169A7E0D71E /* HealthKitHabitSync.swift */,
-				FE114E3FBEA869EC83F199ED /* LoopyPersistence.swift */,
+				2379EA37A1079C6C3BC9B94D /* HabitReminderScheduler.swift */,
+				1889DB536483652B9DAD51C4 /* HealthKitHabitSync.swift */,
+				095E09EF24960500D3CE7E93 /* LoopyPersistence.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -122,14 +212,6 @@
 			path = LoopyTests;
 			sourceTree = "<group>";
 		};
-		65A7C41B94B81E434247B854 /* Reminders */ = {
-			isa = PBXGroup;
-			children = (
-				D33D463F3154CF012689918F /* RemindersSettingsView.swift */,
-			);
-			path = Reminders;
-			sourceTree = "<group>";
-		};
 		71F1EEA8F8147E7BBAF7DF23 /* Loopy */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,18 +219,10 @@
 				A11D25664A03756B88B2CC56 /* Core */,
 				44318293925E0BD0AA892CF1 /* Data */,
 				AD2DD09483355FF5512A01B7 /* Features */,
-				EBCCA996553CC6370DA02F12 /* Intents */,
+				17CBD1D62CF80C16190B518D /* Intents */,
 				D3301267784C1E8ABED9E7DF /* Resources */,
 			);
 			path = Loopy;
-			sourceTree = "<group>";
-		};
-		92424288C947FD610ECE13D1 /* Archive */ = {
-			isa = PBXGroup;
-			children = (
-				28AC2DD1B49BE53C4DD70105 /* ArchivedHabitsView.swift */,
-			);
-			path = Archive;
 			sourceTree = "<group>";
 		};
 		A11D25664A03756B88B2CC56 /* Core */ = {
@@ -162,12 +236,12 @@
 		AD2DD09483355FF5512A01B7 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				92424288C947FD610ECE13D1 /* Archive */,
+				0BBAA0672D106B8AA5F7B22D /* Archive */,
 				02FE1FF596A8E369ABB0DB6D /* HabitEditor */,
 				FDE7A48E75790A3DB1ECD87A /* History */,
-				C3170A6937369DA86ACEBD3B /* Onboarding */,
+				0583B6D62AAC39D011821E91 /* Onboarding */,
 				3BE0CA885FA00BF720E33A5F /* Profile */,
-				65A7C41B94B81E434247B854 /* Reminders */,
+				17750FED03A3879953D475E3 /* Reminders */,
 				AE5D3B4FC08512A2BCA692D9 /* Stats */,
 				49260C0D3168FAD83D270831 /* Today */,
 			);
@@ -182,19 +256,13 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
-		C3170A6937369DA86ACEBD3B /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				839351932C693999DF84192A /* OnboardingView.swift */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
 		C63063CB1889D0CE0321E355 = {
 			isa = PBXGroup;
 			children = (
 				71F1EEA8F8147E7BBAF7DF23 /* Loopy */,
 				4974C178414B9A499B55E6CA /* LoopyTests */,
+				D53F6441FC6681E5E29B6000 /* LoopyUITests */,
+				308607BC00D548196839DA2A /* LoopyWidget */,
 				D0815BF3B2251EAF84E8B4FB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -204,6 +272,8 @@
 			children = (
 				838366364D55B691EF7C6A83 /* Loopy.app */,
 				91AE450DED8FD4F4FCFF8A16 /* LoopyTests.xctest */,
+				A58CAFEA027D2192A15B9FA2 /* LoopyUITests.xctest */,
+				87678F90CB78A7FBCC76B420 /* LoopyWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,18 +282,17 @@
 			isa = PBXGroup;
 			children = (
 				01EC9AAB351D00BD82C69FD8 /* Assets.xcassets */,
-				00319E25284F8E77D6B42FCA /* Loopy.entitlements */,
+				E293C445DB8D0BC73ACF929A /* Loopy.entitlements */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		EBCCA996553CC6370DA02F12 /* Intents */ = {
+		D53F6441FC6681E5E29B6000 /* LoopyUITests */ = {
 			isa = PBXGroup;
 			children = (
-				A7164C6106DB6958A214F64D /* OpenTodayIntent.swift */,
-				C5F7B46CED22186A298B4F99 /* LoopyAppIntents.swift */,
+				C33F8A593D8B18D4527C3646 /* LoopyUITests.swift */,
 			);
-			path = Intents;
+			path = LoopyUITests;
 			sourceTree = "<group>";
 		};
 		FDE7A48E75790A3DB1ECD87A /* History */ = {
@@ -243,10 +312,12 @@
 			buildPhases = (
 				B9F97CFF728FB9256A84FD4D /* Sources */,
 				13F42CA1CB19578EB51FCDDB /* Resources */,
+				D41257A88AAA7762680C4627 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FC46B88D265722CEF31FE0C1 /* PBXTargetDependency */,
 			);
 			name = Loopy;
 			packageProductDependencies = (
@@ -254,6 +325,41 @@
 			productName = Loopy;
 			productReference = 838366364D55B691EF7C6A83 /* Loopy.app */;
 			productType = "com.apple.product-type.application";
+		};
+		4B0937B77AE8EFD9BA5AB867 /* LoopyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E8D2A975500D6372291006AB /* Build configuration list for PBXNativeTarget "LoopyUITests" */;
+			buildPhases = (
+				EB14ADB70864FA5B7E6C11C7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6B98784475D0449E2CB488AF /* PBXTargetDependency */,
+			);
+			name = LoopyUITests;
+			packageProductDependencies = (
+			);
+			productName = LoopyUITests;
+			productReference = A58CAFEA027D2192A15B9FA2 /* LoopyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		83DC0365A56AA218B0F9F75A /* LoopyWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F75ADB8A153A54FF5A1800F8 /* Build configuration list for PBXNativeTarget "LoopyWidgetExtension" */;
+			buildPhases = (
+				7D9BD6EBEDFDA4CD36F20A8C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LoopyWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = LoopyWidgetExtension;
+			productReference = 87678F90CB78A7FBCC76B420 /* LoopyWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		BD37CD01D4EF309493B48E95 /* LoopyTests */ = {
 			isa = PBXNativeTarget;
@@ -283,10 +389,20 @@
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					0994D3BCD1C325E751EB63D4 = {
+						DevelopmentTeam = AAP9J3XJDL;
+						ProvisioningStyle = Automatic;
+					};
+					4B0937B77AE8EFD9BA5AB867 = {
+						DevelopmentTeam = AAP9J3XJDL;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 0994D3BCD1C325E751EB63D4;
+					};
+					83DC0365A56AA218B0F9F75A = {
+						DevelopmentTeam = AAP9J3XJDL;
 						ProvisioningStyle = Automatic;
 					};
 					BD37CD01D4EF309493B48E95 = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = AAP9J3XJDL;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -306,7 +422,9 @@
 			projectRoot = "";
 			targets = (
 				0994D3BCD1C325E751EB63D4 /* Loopy */,
+				83DC0365A56AA218B0F9F75A /* LoopyWidgetExtension */,
 				BD37CD01D4EF309493B48E95 /* LoopyTests */,
+				4B0937B77AE8EFD9BA5AB867 /* LoopyUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -323,6 +441,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7D9BD6EBEDFDA4CD36F20A8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A3F5C76C8AD6E7410E776D /* AchievementCatalog.swift in Sources */,
+				80173B6290DA7C952B4D25ED /* HabitAnalytics.swift in Sources */,
+				7813CD937E6EAD48E78E5E9D /* HabitCheckInService.swift in Sources */,
+				A9F0507CFCA1AE48B788EAA8 /* HabitModels.swift in Sources */,
+				0013EF955FF84FE5882F2472 /* LoopyPersistence.swift in Sources */,
+				2AD27C745ADDE0F2AF059349 /* LoopyTheme.swift in Sources */,
+				96C60DC3DA6511BBA1D34EE1 /* LoopyWidget.swift in Sources */,
+				4C4F9FA340DC8CC1A9F8E67B /* LoopyWidgetBundle.swift in Sources */,
+				6CB9407AF6CE5027952E7D5D /* OpenTodayIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A6F2636D3C83917057427FE0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -335,39 +469,74 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48D0FA5A370D6093F790201A /* AchievementCatalog.swift in Sources */,
+				3E109E9D03A433B2C9710ED4 /* ArchivedHabitsView.swift in Sources */,
 				69C56DA511B268196D102BFE /* HabitAnalytics.swift in Sources */,
+				32C58E79E87D4BB08CB891DE /* HabitCheckInService.swift in Sources */,
 				E53046EB08CBBCD63E8243B7 /* HabitEditorView.swift in Sources */,
 				41835FB6294073EFE706D575 /* HabitModels.swift in Sources */,
+				066086FB9FFD28B7047C2710 /* HabitReminderScheduler.swift in Sources */,
+				0471C9F3528E7FE8FBBE70F1 /* HealthKitHabitSync.swift in Sources */,
 				D272045B7459BC89D3093778 /* HistoryView.swift in Sources */,
 				EFA31FF2D24C2253E9DF01B6 /* LoopyApp.swift in Sources */,
+				3FC1BF04A6B85B351B9BA0A3 /* LoopyAppIntents.swift in Sources */,
+				0CB570CD9830B0FD041E9181 /* LoopyPersistence.swift in Sources */,
 				BF0CF5ACFC6CB7CA3F9D819B /* LoopyTheme.swift in Sources */,
+				C2F73270C9E0DB0B1D4335BE /* OnboardingView.swift in Sources */,
+				9C13FDC6CBCD52CDBA9627C2 /* OpenTodayIntent.swift in Sources */,
 				FAF0DC2AB088EF3F3B730E40 /* ProfileView.swift in Sources */,
+				3BBFA868D9BC9ACF2D1278D1 /* RemindersSettingsView.swift in Sources */,
 				B82D24B89606FAD05D7C7B97 /* StatsView.swift in Sources */,
 				07D06BE827A96BF957BD63B2 /* TodayView.swift in Sources */,
-				30F4C8E386109A5BAE42D5AD /* HabitCheckInService.swift in Sources */,
-				D6A445C88D1679175D3B6E9F /* HabitReminderScheduler.swift in Sources */,
-				D27B727957CC11FB517D3513 /* AchievementCatalog.swift in Sources */,
-				45CF93A0F0611C3FFF4E388F /* HealthKitHabitSync.swift in Sources */,
-				6B6ED8642E65CE2272C05DA2 /* LoopyPersistence.swift in Sources */,
-				C59A1BD249005CD3821D79DC /* ArchivedHabitsView.swift in Sources */,
-				F964E02D3D84C3F3045221E6 /* OnboardingView.swift in Sources */,
-				6198CD0E8BF2BD70082B5F36 /* RemindersSettingsView.swift in Sources */,
-				DE6E459659ADF25B1A58282D /* OpenTodayIntent.swift in Sources */,
-				FD4F040EE041865BE61F7739 /* LoopyAppIntents.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB14ADB70864FA5B7E6C11C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12EA886E8BF1ADB4A81CD9CB /* LoopyUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6B98784475D0449E2CB488AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0994D3BCD1C325E751EB63D4 /* Loopy */;
+			targetProxy = 8743AB7A7FAB80706E8602E9 /* PBXContainerItemProxy */;
+		};
 		DD9D92B235E87356DE0AED99 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0994D3BCD1C325E751EB63D4 /* Loopy */;
 			targetProxy = 4E4A94EFC3C626614DF4D4DB /* PBXContainerItemProxy */;
 		};
+		FC46B88D265722CEF31FE0C1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83DC0365A56AA218B0F9F75A /* LoopyWidgetExtension */;
+			targetProxy = 2F8E9F78CCBBA1C19D1569AC /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		208D98A04FC9F873110C3307 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LoopyWidget/LoopyWidget.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LoopyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy.widget;
+				PRODUCT_NAME = LoopyWidgetExtension;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		248B6520A99F45D7086EE178 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -405,7 +574,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AAP9J3XJDL;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -430,6 +599,23 @@
 			};
 			name = Release;
 		};
+		43F68F6D2E5C87303C1E2BC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LoopyWidget/LoopyWidget.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LoopyWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy.widget;
+				PRODUCT_NAME = LoopyWidgetExtension;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		4A22DB2E5E14B572D6780328 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -437,7 +623,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Loopy/Resources/Loopy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = AAP9J3XJDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
@@ -457,6 +642,23 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
+		};
+		5314EDD3B469F9EEF26D78A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Loopy;
+			};
+			name = Debug;
 		};
 		6F4517137F702AB7DEE39197 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -512,7 +714,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AAP9J3XJDL;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -544,6 +746,23 @@
 			};
 			name = Debug;
 		};
+		7A4546925BB66AD872CACAC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.saitejasegu.loopy.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Loopy;
+			};
+			name = Release;
+		};
 		B7EBD1C3EC11340042B6206E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -551,7 +770,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Loopy/Resources/Loopy.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = AAP9J3XJDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Loopy;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
@@ -615,6 +833,24 @@
 			buildConfigurations = (
 				756DAF82CA03BA9A37064A3A /* Debug */,
 				248B6520A99F45D7086EE178 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E8D2A975500D6372291006AB /* Build configuration list for PBXNativeTarget "LoopyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5314EDD3B469F9EEF26D78A7 /* Debug */,
+				7A4546925BB66AD872CACAC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F75ADB8A153A54FF5A1800F8 /* Build configuration list for PBXNativeTarget "LoopyWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				208D98A04FC9F873110C3307 /* Debug */,
+				43F68F6D2E5C87303C1E2BC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
